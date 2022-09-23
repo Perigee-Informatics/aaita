@@ -107,7 +107,7 @@
                 </select>
                 <button class="btn bg-light la la-times age_group_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
             </div>
-            <div class="col d-inline-flex">
+            {{-- <div class="col d-inline-flex">
                 <select class="form-control" name="channel" id="channel" style="width: 100%;" onchange="getMembersData()">
                     <option class="text-mute" selected disabled value=""> -- Channel --</option>
                     <option class="form-control" value="wiw">WIW</option>
@@ -124,7 +124,7 @@
                     <option class="form-control" value="friends_of_wsfn">Friends of WSFN</option>
                 </select>
                 <button class="btn bg-light la la-times membership_type_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
-            </div>
+            </div> --}}
            
         </div>
 

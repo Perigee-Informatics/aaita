@@ -11,6 +11,7 @@
 		margin-left:0px !important;
     }
 </style>
+<hr class="hr-line m-2">
 
 <li class="nav-item"><a class="nav-link" href="/"><i class="la la-dashboard nav-icon"></i> Dashboard</a></li>
 

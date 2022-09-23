@@ -25,11 +25,10 @@ $current_url = url()->current();
     {{-- <span class="btn font-weight-bolder font-2xl pl-3" style="cursor: pointer; color:black;" onclick="openNav()"><i class="la la-bars"></i></span> --}}
     <a class="ml-2 text-dark text-decoration-none font-xl" href="{{ url(config('backpack.base.home_link')) }}" title="{{ config('backpack.base.project_name') }}">
       {!! config('backpack.base.project_logo')  !!}
-      <span style="font-weight:700; color: #e3453f !important; position:relative; top: -5px !important">
+      <span style="font-weight:550; color: white !important; position:relative; top: -2px !important">
         {{config('backpack.base.project_name')}}<br/>
       </span>
-      <span class="font-sm ml-5 pl-3 font-weight-bold" style="position:relative; top: -22px !important; color:black;">
-        Science & Technology for National Development
+      <span class="font-sm ml-5 pl-2" style="font-weight:550; position:relative; top: -20px !important; color:white;">Nepal Chapter
       </span>
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none pb-4 text-dark" type="button" data-toggle="sidebar-lg-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
@@ -39,7 +38,7 @@ $current_url = url()->current();
  {{-- @endif --}}
 
   <div class="date-time d-lg-block d-sm-none">
-    <p style="color: black;" class="mt-2">{{$date}} <br><span id="txt"></span></p>
+    <p style="color: white;" class="mt-2">{{$date}} <br><span id="txt"></span></p>
   </div>
   @include(backpack_view('inc.menu'))
   <img class="mb-3 mr-2" src="{{asset('css/images/nepalflag.gif')}}" border="0" alt=""  style="width:50px;height:50px;" />

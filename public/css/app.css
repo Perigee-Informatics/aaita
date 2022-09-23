@@ -100,14 +100,12 @@
 }
 
 /* Hide Scroll bar in action column*/
-
 .DTFC_RightBodyLiner {
   overflow-y: hidden !important;
   overflow-x: hidden !important;
 }
 
 /* Adjusting Position of action column */
-
 .DTFC_RightFootWrapper {
   margin-top: -7px !important;
 }
@@ -150,7 +148,6 @@ div.DTFC_RightBodyWrapper {
 }
 
 /* css for sidebar*/
-
 .sidebar .nav-dropdown-items .nav-item {
   color: white;
   margin-left: 15px;
@@ -165,7 +162,6 @@ div.DTFC_RightBodyWrapper {
 }
 
 /* css for current focus element */
-
 .dataTables_wrapper .dataTables_filter input:focus,
 .dataTables_wrapper .dataTables_length select:focus,
 .form-control:focus,
@@ -189,7 +185,6 @@ div.DTFC_RightBodyWrapper {
 }
 
 /* DataTable related customization */
-
 .dataTables_scrollFoot,
 .DTFC_RightFootWrapper {
   display: none;
@@ -228,7 +223,6 @@ td p {
 }
 
 /* form controls */
-
 .form-control.amount-field {
   max-width: 150px;
 }
@@ -275,7 +269,6 @@ legend {
 }
 
 /*** Patient Observation Page ***/
-
 .today-date {
   margin: 10px 30px 0px 0px;
   text-align: right;
@@ -379,7 +372,7 @@ textarea.form-control {
 }
 
 .app-header {
-  background-color: #64c8eb !important;
+  background-color: #161c2d !important;
   height: 70px !important;
 }
 
@@ -392,4 +385,3 @@ textarea.form-control {
 .print_export_button.buttons-colvis {
   background-color: green !important;
 }
-

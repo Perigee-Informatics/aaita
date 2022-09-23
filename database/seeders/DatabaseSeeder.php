@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DateSettingSeeder::class);
         $this->call(PrimaryMasterTableSeeder::class);
         $this->call(UserTableSeeder::class);
+        $this->call(GeoCoordinatesSeeder::class);
 
     }
 }

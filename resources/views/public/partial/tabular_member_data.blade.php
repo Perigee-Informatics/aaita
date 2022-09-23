@@ -4,8 +4,8 @@
                 <th class="report-heading">S.N.</th>
                 <th class="report-heading th_large">Full Name</th>
                 <th class="report-heading th_large">Gender</th>
-                <th class="report-heading th_large">Channel</th>
-                <th class="report-heading th_large">Membership Type</th>
+                {{-- <th class="report-heading th_large">Channel</th> --}}
+                {{-- <th class="report-heading th_large">Membership Type</th> --}}
                 <th class="report-heading th_large">Country</th>
                 <th class="report-heading th_large">Province</th>
                 <th class="report-heading th_large">District</th>
@@ -35,8 +35,8 @@
                     <td class="report-data text-center">{{$loop->iteration}}</td>
                     <td class="report-data">{{$member_full_name}}</td>
                     <td class="report-data">{{$basic->genderEntity->name_en}}</td>
-                    <td class="report-data">{{$channel}}</td>
-                    <td class="report-data">{{$m_type}}</td>
+                    {{-- <td class="report-data">{{$channel}}</td> --}}
+                    {{-- <td class="report-data">{{$m_type}}</td> --}}
                     <td class="report-data">{{$basic->countryEntity ? $basic->countryEntity->name_en : 'Nepal'}}</td>
                     <td class="report-data">{{$basic->provinceEntity->name_en}}</td>
                     <td class="report-data">{{$basic->districtEntity->name_en}}</td>

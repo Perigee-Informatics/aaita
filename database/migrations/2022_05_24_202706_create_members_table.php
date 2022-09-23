@@ -51,6 +51,8 @@ class CreateMembersTable extends Migration
             $table->string('email',500)->nullable();
             $table->string('link_to_google_scholar',1000)->nullable();
 
+            $table->unsignedSmallInteger('status')->default(1);
+
             $table->foreign('gender_id','fk_members_gender_id')->references('id')->on('mst_gender');
             $table->foreign('country_id','fk_members_country_id')->references('id')->on('mst_country');
             $table->foreign('province_id','fk_members_province_id')->references('id')->on('mst_fed_province');

@@ -13,7 +13,7 @@
         <div class="card mb-0" style="background-color:#d9d9d9;">
             <div class="card-header bg-primary p-0">
                 <div class="form-row mb-3">
-                    <div class="col-sm-12 col-md-4"><i class="la la-map-marked-alt ml-2 pt-2"> WHO is WHO Scientist Distribution</i></div>
+                    <div class="col-sm-12 col-md-4" style="font-weight: 600;"><i class="la la-map-marked-alt ml-2 pt-2"></i> AIT Alumni Distribution</div>
                     <div class="col-sm-12 col-md-8">
                         <nav aria-label="breadcrumb" class="map-breadcrumb">
                             <ol class="breadcrumb">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body bg-light py-1">
+            {{-- <div class="card-body bg-light py-1">
                 <div class="form-row" style=" font-weight:bold">
                     <div class="col" style="text-align: center">
                         <label for="channel_wiw"> CHANNEL</label><br>
@@ -46,13 +46,8 @@
                         <input type="checkbox" id="channel_wsfn" name="channel_filter[]" value="channel_wsfn">
                         <label for="channel_wsfn">Women Scientists Forum Nepal</label><br>
                     </div>
-                    {{-- <div class="col">
-                        <input type="checkbox" id="channel_foreign" name="channel_filter[]" value="channel_foreign">
-                        <label for="channel_foreign">Foreign</label><br>
-                    </div> --}}
                 </div>
-                
-            </div>
+            </div> --}}
         </div>
 
 

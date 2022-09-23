@@ -28,20 +28,20 @@ class UserTableSeeder extends Seeder
         // DB::table("")
         DB::table('users')->insert([
             'name' => 'superadmin',
-            'email' => 'super@nast.org',
+            'email' => 'super@aitaa.org',
             'password' => bcrypt('Super@1234'),
         ]);
         DB::table('users')->insert([
             'name' => 'admin',
-            'email' => 'admin@nast.org',
+            'email' => 'admin@aitaa.org',
             'password' => bcrypt('Admin@1234'),
 
         ]);
 
-        $superadmin = User::where('email','super@nast.org')->first();
+        $superadmin = User::where('email','super@aitaa.org')->first();
         $superadmin->assignRoleCustom("superadmin",$superadmin->id);
 
-        $admin = User::where('email','admin@nast.org')->first();
+        $admin = User::where('email','admin@aitaa.org')->first();
         $admin->assignRoleCustom("admin",$admin->id);
 
     }
