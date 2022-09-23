@@ -1,0 +1,366 @@
+.btn-primary,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    color: #fff;
+    background-color: #467fcf;
+    border-color: #467fcf;
+}
+
+.btn {
+    border: 1px solid transparent;
+    padding: 0.215rem 0.5rem;
+    font-size: 0.9rem;
+    margin-top: 3px;
+    /* line-height: 1.5; */
+}
+
+.btn-group-sm > .btn,
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    border-radius: 0.2rem;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active:focus {
+    border-color: rgba(241, 241, 241, 0.66);
+    border-bottom: 2px solid #467fcf;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    color: #0d67ec;
+    background-color: #fefefe;
+    border: 1px solid #548adf91;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    background-color: #d7dce4;
+    margin-right: 3px;
+}
+.btn-success {
+    background-color: #067a52;
+}
+
+.edit-btn {
+    margin-left: 2px;
+    padding: 0px 2px 0px 3px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.show-btn {
+    margin-left: 2px;
+    padding: 2px 2px 2px 3px;
+    border-radius: 4px;
+    font-size: 15px;
+    border: 1px solid #055d78;
+    background-color: #055d78;
+}
+.print-btn {
+    margin-left: 2px;
+    padding: 2px 2px 2px 3px;
+    border-radius: 4px;
+    font-size: 15px;
+    border: 1px solid #055d78;
+    background-color: #055d78;
+}
+.back-btn {
+    background-color: grey;
+    color: white;
+    border-radius: 4px;
+    padding: 1px 7px 1px 2px;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+.back-btn:hover {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+.delete-btn {
+    margin-left: 2px;
+    padding: 0px 2px 0px 2px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.dataTables_scrollBody {
+    overflow-y: scroll !important;
+    overflow-x: scroll !important;
+}
+
+/* Hide Scroll bar in action column*/
+.DTFC_RightBodyLiner {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+/* Adjusting Position of action column */
+.DTFC_RightFootWrapper {
+    margin-top: -7px !important;
+}
+div.DTFC_RightBodyWrapper {
+    top: -7px !important;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select,
+.form-control {
+    display: block;
+    width: 100%;
+    /* height: 2.15rem;
+    padding: .075rem .75rem; */
+    height: 1.85rem;
+    padding: 0.1rem 0.75rem;
+    font-size: 0.99rem;
+    font-weight: 400;
+    line-height: 2;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 40, 100, 0.12);
+    border-radius: 3px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-warning {
+    color: #ffffff;
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.form-center {
+    display: flex;
+    flex-flow: column;
+    /* flex-direction: column; */
+    align-items: center;
+}
+
+/* css for sidebar*/
+
+.sidebar .nav-dropdown-items .nav-item {
+    color: white;
+    margin-left: 15px;
+    font-size: 12px !important;
+    padding: 0px !important;
+}
+
+.sidebar .sidebar-nav,
+.sidebar .sidebar-scroll,
+.sidebar .nav {
+    width: 200px;
+}
+/* css for current focus element */
+.dataTables_wrapper .dataTables_filter input:focus,
+.dataTables_wrapper .dataTables_length select:focus,
+.form-control:focus,
+.select2-container.select2-container--bootstrap:focus,
+.select2-container--bootstrap
+    .select2-search--dropdown
+    .select2-search__field:focus {
+    background-color: #def9be;
+    box-shadow: 0 0 0 3px rgba(70, 127, 207, 0.88);
+}
+.radio-inline input[type="radio"]:focus,
+.checkbox input:focus,
+.form-check input:focus {
+    box-shadow: 0 0 0 6px rgba(75, 230, 139, 0.88);
+}
+.select2-search__field:focus,
+.select2-selection.select2-selection--multiple:focus,
+.select2-selection.select2-selection--single:focus {
+    background-color: #def9be;
+    box-shadow: 0 0 0 3px rgba(70, 127, 207, 0.88) !important;
+}
+
+/* DataTable related customization */
+
+.dataTables_scrollFoot,
+.DTFC_RightFootWrapper {
+    display: none;
+}
+.DTFC_RightBodyLiner td {
+    vertical-align: middle;
+}
+.DTFC_RightBodyLiner {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+.DTFC_RightBodyLiner {
+    left: -12px;
+}
+td p {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+.table th {
+    /* padding: 0.4rem !important; */
+    border-top: none;
+    background-color: #c8ced3;
+    font-size: 14px;
+}
+
+.table td {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.15rem !important;
+    border-top: none;
+    font-size: 13px !important;
+}
+
+/* form controls */
+.form-control.amount-field {
+    max-width: 150px;
+}
+textarea[readonly] {
+    background-color: #e2e2e2 !important;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 2px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    line-height: inherit;
+    color: blue;
+    // text-decoration: underline;
+    font-weight: 600;
+    // background-color: #c4d8e2;
+}
+.empty-group {
+    margin-bottom: 0;
+}
+
+.form-group,
+.form-group1 {
+    margin-bottom: 0.5rem;
+}
+
+.nav-tabs .nav-link {
+    color: #3a83ea;
+}
+
+.nav-tabs .nav-link.active {
+    color: #da4040;
+    font-weight: 550;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid #bbbdbf;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+/*** Patient Observation Page ***/
+.today-date {
+    margin: 10px 30px 0px 0px;
+    text-align: right;
+    font-size: 17px;
+    font-weight: 600;
+}
+.top-navigation {
+    margin: 10px 0 0 20px;
+}
+table {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+}
+table tr td {
+    padding: 7px;
+}
+#appointment {
+    margin-top: 10px;
+}
+
+.data {
+    padding: 20px;
+}
+hr.hr-line {
+    border: 1px solid lightgray;
+}
+
+.sidebar.sidebar-pills {
+    width: 200px;
+}
+
+li.nav-item {
+    margin-top: -2px !important;
+    margin-bottom: -5px !important;
+}
+
+.sidebar.sidebar-pills .nav-link.active,
+.sidebar.sidebar-pills .nav-link:hover,
+.nav-dropdown-toggle:hover {
+    color: orange !important;
+    font-weight: 700;
+}
+.sidebar.sidebar-pills .nav-link {
+    color: white !important;
+    font-size: 13px;
+}
+.sidebar.sidebar-pills .nav-link.active .nav-icon,
+.sidebar.sidebar-pills .nav-link:hover .nav-icon {
+    color: orange !important;
+}
+.sidebar.sidebar-pills .nav-link .nav-icon {
+    color: white !important;
+    font-size: 15px !important;
+}
+
+.tab-content {
+    min-height: 400px;
+}
+
+.form-row .form-group {
+    margin-right: 10px;
+    padding-top: 5px;
+}
+
+.form-group > label {
+    font-weight: bold;
+}
+
+textarea.form-control {
+    min-height: 200px;
+}
+
+.input-group-prepend > .input-group-text,
+.input-group-append > .input-group-text {
+    padding: 0px 5px !important;
+    color: blue;
+}
+.map-tab {
+    height: 20px;
+    background-color: #d7dce4;
+    border-radius: 15px;
+}
+.tab {
+    border-radius: 15px;
+    background-color: #d7dce4;
+}
+.streets {
+    background-color: #d7dce4;
+}
+.app-header {
+    // background-color: lightgray !important;
+    background-color: rgb(100, 200, 235)  !important;
+    height: 70px !important;
+}
+.print_export_button {
+    background-color: blue !important;
+    color: white !important;
+    border-radius: 5px 5px 5px 5px;
+  }
+  
+  .print_export_button.buttons-colvis{
+    background-color: green !important;
+  }
+  

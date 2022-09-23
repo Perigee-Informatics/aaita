@@ -1,0 +1,121 @@
+#map {
+    top: 0;
+    height: 80vh;
+    width: 100%;
+    left:5%;
+    position: relative;
+    flex-grow: 1;
+    transition: 0.5s linear;
+    -moz-transition: 0.5s linear;
+    -webkit-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.leaflet-container {
+    background: none;
+}
+
+/* 
+.leaflet-control-attribution {
+    display: none;
+} */
+
+.info {
+    margin-top: 2vh !important;
+    padding: 5px 5px;
+    background: white;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 150px;
+    position: relative;
+    right:50%;
+}
+
+.info h4 {
+    text-align: center;
+    color: #0078a8;
+    margin: 0 0 5px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.map-container {
+    margin-top: -100px;
+}
+
+.province_label {
+    margin-left: -55px !important;
+    margin-top: -15px !important;
+    font-size: 15px;
+    text-shadow: 1px 1px darkgrey;
+    font-weight: bold;
+    color: black;
+    font-family:cursive !important;
+}
+
+.district_label {
+    margin-left: -30px !important;
+    margin-top: -11px !important;
+    font-size: 15px;
+    font-weight: bold;
+    /* text-shadow: 1px 1px black; */
+    color:white;
+    font-family:cursive !important;
+
+}
+
+.localLevel_label {
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+    font-family:cursive !important;
+
+}
+
+@media screen and (min-width: 480px) and (max-width:1500px) {
+    .district_label {
+        margin-left: -30px !important;
+        margin-top: -11px !important;
+        font-size: 12px;
+    }
+
+    .localLevel_label {
+        font-size: 13px;
+    }
+  }
+
+
+#custom_spinner {
+    position: fixed;
+    /* or absolute */
+    top: 50%;
+    left: 50%;
+    z-index: 4000;
+    color: ivory;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 5rem;
+    height: 5rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border 0.75s linear infinite;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+.spinner-border-sm {
+    height: 1rem;
+    border-width: 0.2em;
+}

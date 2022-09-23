@@ -1,0 +1,280 @@
+#home {
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    padding-top: 7em;
+}
+
+#home .overlay {
+    background: url("/img/bg1.png") no-repeat;
+    background-size: cover;
+    height: 575px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: slategray;
+}
+
+.map-breadcrumb {
+    /* margin-top: -7%;  */
+    z-index: 1000 !important;
+    /* position: absolute; */
+    /* margin-right: auto !important; */
+    /* margin-left: -2%; */
+    /* width: 50%; */
+    margin-top: -17px;
+    /* margin-left: -100px !important; */
+    max-height: 30px !important;
+}
+.breadcrumb {
+    text-align: center;
+    border-radius: 10px;
+}
+
+.breadcrumb-item {
+    background: white;
+    opacity: 0.9;
+    border-radius: 10px;
+    padding: 3px 10px;
+    font-weight: bold;
+    color: black;
+    position: relative;
+    font-size: 15px;
+    font-family:ccursiveportant;
+
+}
+.breadcrumb-item:hover {
+    cursor: pointer;
+    color: blue;
+}
+
+.breadcrumb > i {
+    margin-top: 7px;
+    font-weight: 900;
+    color: white;
+}
+
+/* for data section below map 
+ */
+#fed_area {
+    padding-top: 40px;
+    padding-bottom: 20px;
+    background: #f3f5f9;
+}
+
+
+@media (max-width: 100px) {
+    #fed_area,
+    #project_count_summary {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+}
+
+.circle-tile-number {
+    font-size: 18px;
+    padding-left: 30%;
+}
+
+.box {
+    background: #ffffff;
+    border: 1px solid #f2f2f2;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    text-align: left;
+    padding: 10px;
+    margin: 5px 0px;
+}
+.circle-tile-number,
+.circle-tile-description {
+    font-family:cursive !important;
+    font-weight: 600;
+}
+
+.circle-tile-description {
+    color: black;
+    text-align: center;
+    font-size:16px;
+}
+.text-margin-left {
+    margin-left: 25px;
+}
+
+/* branc-card css */
+
+.brand-card {
+    border: 1px solid #f2f2f2;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    font-family: cursive !important;
+}
+
+.bg-stack-overflow,
+.bg-twitter,
+.bg-xing,
+.bg-yahoo {
+    background-color: #0d47a1 !important;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.brand-card-header {
+    height: 2.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.brand-card-body {
+    padding: 0.75rem 0;
+}
+
+.brand-card-body > :not(:last-child) {
+    border-right: 1px solid #c8ced3;
+}
+
+.brand-card-body > * {
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.text-header {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+    border-bottom: 2px solid lightgray;
+}
+
+.text-value {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.text-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: cursive !important;
+}
+.text-link a {
+    color:#0d47a1 !important;
+}
+
+.text-left {
+    padding-left: 20px;
+    text-align: left;
+}
+
+.text-size {
+    font-size: 15px;
+    font-weight: bold;
+    font-family:scursive!important;
+}
+.text-blue {
+    color: #0d47a1;
+}
+
+.text-amount {
+    padding-right: 20px;
+    padding-bottom: 3px;
+    text-align: right;
+    font-size: 13px;
+}
+.text-muted {
+    color: #73818f !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.small,
+small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+#gender_name{
+    text-align: left;
+    margin-left:7px;
+    font-size: 13px !important;
+}
+
+#gender_card{
+    font-size:14px !important;
+}
+
+.total-sum{
+    border-top:2px solid lightgrey;
+    font-weight: bold !important;
+    color:green;
+}
+
+    
+@media (min-width: 400px) {
+ .container{
+     min-width: 100% !important;
+ }
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Stay on top */
+    top: 70px; /* Stay at the top */
+    left: 0;
+    background-color: #399bbe !important; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 20px;
+    text-decoration: none;
+    font-size: 17px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: rgb(196, 26, 26);
+    text-decoration: none;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 45px;
+    margin-left: 50px;
+    font-weight: bold;
+    color:rgb(214, 42, 42);
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #main {
+    transition: margin-left .5s;
+    padding: 20px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 60px;}
+    .sidenav a {font-size: 18px;}
+  }
+

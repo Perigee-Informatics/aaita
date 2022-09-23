@@ -1,0 +1,168 @@
+{
+
+    "gender": {
+        "female": "महिला",
+        "male": "पुरूस",
+        "third": "तेश्रो लिङ्ग"
+    },
+    "family_head_gender": {
+        "female": "महिला",
+        "male": "पुरूस",
+        "third": "तेश्रो लिङ्ग",
+        "": "तेश्रो लिङ्ग"
+    },
+    "economically_active": {
+        "Yes": "हो",
+        "yes": "हो",
+        "No": "होइन",
+        "no": "होइन"
+    },
+    "perform_water_purification": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_electricity": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_bank_account": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_agriculture": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_irrigation": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_land_use": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_agri_storage_capacity": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_land_inside_municipal": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_land_outside_municipal": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_migrated": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_loan": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_financial_group": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_drug_addict": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_school_children": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_university_students": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_technical_edu": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_dropout_students": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_women_in_org": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "emergency_service_to_house": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "public_transportation_service_to_house": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "has_disaster_affected": {
+        "Yes": "छ",
+        "yes": "छ",
+        "No": "छैन",
+        "no": "छैन"
+    },
+    "ward_no": {
+        "ward_1": "१",
+        "ward_2": "२",
+        "ward_3": "३",
+        "ward_4": "४",
+        "ward_5": "५",
+        "ward_6": "६",
+        "ward_7": "७",
+        "ward_8": "८",
+        "ward_9": "९",
+        "ward_10": "१०",
+        "ward_11": "११",
+        "ward_12": "१२",
+        "ward_13": "१३",
+        "ward_14": "१४",
+        "ward_15": "१५",
+        "ward_16": "१६",
+        "ward_17": "१७",
+        "ward_18": "१८",
+        "ward_19": "१९",
+        "ward_20": "२०"
+    }
+}
