@@ -40,9 +40,10 @@
 		<thead>
 				@php
 					$cols = [
-						'position' => 100,
-						'organization'=> 200,
-						'address' => 100,
+						'academic_level' => 100,
+						'name_of_degree' => 100,
+						'field_of_study' => 100,
+						'graduation_year' => 100,
 					];
 				@endphp
 			<tr>
@@ -55,14 +56,24 @@
 
 		<tbody>
 			@foreach ($value as $tableRow)
-			@if($tableRow->position != '')
+			@if($tableRow->academic_level != '')
 				<tr>   
 					@foreach($columns as $tableColumnKey => $tableColumnLabel)
 						<td style="overflow-x: scroll; overflow-y:hidden;">
 							@if( is_array($tableRow) && isset($tableRow[$tableColumnKey]) )
 								{{ $tableRow[$tableColumnKey] }}
 							@elseif( is_object($tableRow) && property_exists($tableRow, $tableColumnKey) )
-								{!! nl2br($tableRow->$tableColumnKey) !!}
+								@php
+									switch($tableColumnKey){
+										case 'academic_level':
+											$column_value = App\Models\Member::$degree_options[($tableRow->$tableColumnKey)];
+										break;
+										default:
+											$column_value = wordwrap($tableRow->$tableColumnKey,60, "<br/>", false);
+										break;
+										}
+								@endphp	
+								{!! nl2br($column_value) !!}
 
 							@endif
 

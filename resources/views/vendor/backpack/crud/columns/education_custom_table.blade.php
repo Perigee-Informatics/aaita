@@ -2,9 +2,7 @@
 	// $value = data_get($entry, $column['name']);
 
     $levels = [
-        'doctorate'=>data_get($entry,'doctorate_degree'),
-        'masters'=>data_get($entry,'masters_degree'),
-        'bachelors'=>data_get($entry,'bachelors_degree'),
+        'highest'=>data_get($entry,'highest_degree'),
 ];
 
 
@@ -16,7 +14,7 @@
 	$columns = $column['columns'];
 
 	// if this attribute isn't using attribute casting, decode it
-	    $values = [json_decode($levels['doctorate']),json_decode($levels['masters']),json_decode($levels['bachelors'])];
+	    $values = [json_decode($levels['highest'])];
 @endphp
 
 <style>
@@ -69,7 +67,17 @@
                             @if( is_array($tableRow) && isset($tableRow[$tableColumnKey]) )
                                 {{ $tableRow[$tableColumnKey] }}
                             @elseif( is_object($tableRow) && property_exists($tableRow, $tableColumnKey) )
-                                {!! nl2br($tableRow->$tableColumnKey) !!}
+							@php
+							switch($tableColumnKey){
+								case 'degree_name':
+									$column_value = App\Models\Member::$degree_options[($tableRow->$tableColumnKey)];
+								break;
+								default:
+									$column_value = wordwrap($tableRow->$tableColumnKey,60, "<br/>", false);
+								break;
+								}
+							@endphp	
+							{!! nl2br($column_value) !!}
 
                             @endif
 

@@ -268,19 +268,19 @@ class MemberCrudController extends BaseCrudController
                     'address' => 'Address',
                 ]
             ],
+            // [
+            //     'name'  => 'past_organization',
+            //     'label'   => '<center>Past Organization</center>',
+            //     'type'  => 'custom_table',
+            //     'columns' => [
+            //         'position'=> 'Position',
+            //         'organization' => 'Organization',
+            //         'address' => 'Address',
+            //     ]
+            // ],
             [
-                'name'  => 'past_organization',
-                'label'   => '<center>Past Organization</center>',
-                'type'  => 'custom_table',
-                'columns' => [
-                    'position'=> 'Position',
-                    'organization' => 'Organization',
-                    'address' => 'Address',
-                ]
-            ],
-            [
-                'name'  => 'doctorate_degree',
-                'label'   => '<center>Educational Qualifications</center>',
+                'name'  => 'highest_degree',
+                'label'   => '<center>Highest Degree</center>',
                 'type'  => 'education_custom_table',
                 'columns' => [
                     'degree_name'=> 'Degree Name',
@@ -292,15 +292,26 @@ class MemberCrudController extends BaseCrudController
                 ]
             ],
             [
-                'name'  => 'awards',
-                'label'   => '<center> Awards</center>',
-                'type'  => 'awards_custom_table',
+                'name'  => 'ait_study_details',
+                'label'   => '<center>AIT Study Details</center>',
+                'type'  => 'ait_custom_table',
                 'columns' => [
-                    'award_name'=> 'Award Name',
-                    'awarded_by' => 'Awarded By',
-                    'awarded_year' => 'Year',
+                    'academic_level'=> 'Academic level',
+                    'name_of_degree' => 'Others (If any)',
+                    'field_of_study' => 'Field of Study',
+                    'graduation_year' => 'Graduation Year',
                 ]
             ],
+            // [
+            //     'name'  => 'awards',
+            //     'label'   => '<center> Awards</center>',
+            //     'type'  => 'awards_custom_table',
+            //     'columns' => [
+            //         'award_name'=> 'Award Name',
+            //         'awarded_by' => 'Awarded By',
+            //         'awarded_year' => 'Year',
+            //     ]
+            // ],
             [
                 'name'  => 'expertise',
                 'label'   => '<center> Expertise</center>',
@@ -309,18 +320,18 @@ class MemberCrudController extends BaseCrudController
                     'name'=> 'Name',
                 ]
             ],
-            [
-                'name'  => 'affiliation',
-                'label'   => '<center> Affiliation</center>',
-                'type'  => 'awards_custom_table',
-                'columns' => [
-                    'name'=> 'Name',
-                ]
-            ],
+            // [
+            //     'name'  => 'affiliation',
+            //     'label'   => '<center> Affiliation</center>',
+            //     'type'  => 'awards_custom_table',
+            //     'columns' => [
+            //         'name'=> 'Name',
+            //     ]
+            // ],
            
             [
                 'name' => 'mailing_address',
-                'label' => trans('Mailing Address'),
+                'label' => trans('Postal Address'),
                 'type' => 'model_function',
                 'function_name'=>'mailingAddress'
             ],
@@ -334,11 +345,11 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('E-mail'),
                 'type' => 'text',
             ],
-            // [
-            //     'name' => 'link_to_google_scholar',
-            //     'label' => trans('Link to Google Scholar'),
-            //     'type' => 'url',
-            // ],
+            [
+                'name' => 'link_to_google_scholar',
+                'label' => trans('Link to Google Scholar'),
+                'type' => 'url',
+            ],
 
         ];
 
@@ -371,6 +382,20 @@ class MemberCrudController extends BaseCrudController
 
         // CRUD::setFromDb(); // fields
         $arr=[
+
+            [
+                'name' => 'full_name',
+                'label' => trans('Full Name'),
+                'type' => 'text',
+                'attributes'=>[
+                    'id' => 'name-en',
+                    'required' => 'required',
+                    'max-length'=>200,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-7',
+                ],
+            ],
             [
                 'name' => 'gender_id',
                 'type' => 'select2',
@@ -379,12 +404,35 @@ class MemberCrudController extends BaseCrudController
                 'model'=>MstGender::class,
                 'label' => trans('Gender'),
                 'wrapper' => [
-                    'class' => 'form-group col-md-4',
+                    'class' => 'form-group col-md-5',
                 ],
                 'attributes'=>[
                     'required' => 'required',
                 ],
             ],
+            [
+                'name' => 'email',
+                'label' => trans('E-mail'),
+                'type' => 'text',
+                'attributes'=>[
+                    'max-lenght'=>500,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-7',
+                ],
+            ],
+            [
+                'name' => 'phone',
+                'label' => trans('Phone/Cell'),
+                'type' => 'text',
+                'attributes'=>[
+                    'max-lenght'=>200,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-5',
+                ],
+            ],
+        
 
             [
                 'name' => 'dob_bs',
@@ -414,66 +462,6 @@ class MemberCrudController extends BaseCrudController
                 ],
             ],
 
-            // [
-            //     'name'=>'nrn_number',
-            //     'type'=>'text',
-            //     'label'=>trans('NRN Number'),
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
-
-            [
-                'name' => 'full_name',
-                'label' => trans('Full Name'),
-                'type' => 'text',
-                'attributes'=>[
-                    'id' => 'name-en',
-                    'required' => 'required',
-                    'max-length'=>200,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-6',
-                ],
-            ],
-            // [
-            //     'name' => 'first_name',
-            //     'label' => trans('First Name'),
-            //     'type' => 'text',
-            //     'attributes'=>[
-            //         'id' => 'name-en',
-            //         'required' => 'required',
-            //         'max-length'=>200,
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
-
-            // [
-            //     'name' => 'middle_name',
-            //     'label' => trans('Middle Name'),
-            //     'type' => 'text',
-            //     'attributes'=>[
-            //         'max-length'=>200,
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
-
-            // [
-            //     'name' => 'last_name',
-            //     'label' => trans('Last Name'),
-            //     'type' => 'text',
-            //     'attributes'=>[
-            //         'required' => 'required',
-            //         'max-length'=>200,
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
             [   // Upload
                 'name' => 'photo_path',
                 'label' => trans('Photo'),
@@ -487,72 +475,41 @@ class MemberCrudController extends BaseCrudController
                 ],
             ],
             [
-                'name'=>'custom_html',
-                'fake'=>true,
-                'type'=>'custom_html',
-                'value'=>'</br>'
+                'name' => 'mailing_address',
+                'label' => trans('Current Postal Address'),
+                'type' => 'text',
+                'attributes'=>[
+                    'max-lenght'=>500,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-12',
+                ],
             ],
-            // [
-            //     'name'=>'channel_wiw',
-            //     'label'=>trans('Is WIW ?'),
-            //     'type'=>'radio',
-            //     'default'=>true,
-            //     'inline'=>true,
-            //     'options'=>
-            //     [
-            //         true=>'Yes',
-            //         false=>'No',
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
-
-            // [
-            //     'name'=>'channel_wsfn',
-            //     'label'=>trans('Is WSFN ?'),
-            //     'type'=>'radio',
-            //     'inline'=>true,
-            //     'default'=>false,
-            //     'options'=>
-            //     [
-            //         true=>'Yes',
-            //         false=>'No',
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            // ],
-          
-            // [
-            //     'name'=>'channel_foreign',
-            //     'label'=>trans('Is CHANNEL FOREIGN ?'),
-            //     'inline'=>true,
-            //     'type'=>'radio',
-            //     'options'=>
-            //     [
-            //         true=>'Yes',
-            //         false=>'No',
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            //     'default'=>false,
-            // ],
-            // [
-            //     'name'=>'membership_type',
-            //     'label'=>'Membership Type',
-            //     'type'=>'select_from_array',
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-3',
-            //     ],
-            //     'options'=>[
-            //         'life'=>'Life',
-            //         'friends_of_wsfn'=>'Friends of WSFN'
-            //     ]
-            // ],
             [
-                'name'=>'custom_html_1',
+                'name'=>'current_country_id',
+                'type'=>'select2',
+                'label'=>trans("Current Country of Residence"),
+                'entity'=>'currentCountryEntity',
+                'model'=>Country::class,
+                'attribute'=>'name_en',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6',
+                ],
+                'default'=>153
+            ],
+            [
+                'name' => 'city_of_residence',
+                'label' => trans('City of Residence'),
+                'type' => 'text',
+                'attributes'=>[
+                    'max-lenght'=>500,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name'=>'custom_html',
                 'fake'=>true,
                 'type'=>'custom_html',
                 'value'=>'</br>'
@@ -624,6 +581,144 @@ class MemberCrudController extends BaseCrudController
                 'default'=>153
             ],
 
+            
+
+
+            // [
+            //     'name'  => 'past_organization',
+            //     'label'   => trans('Past Organization'),
+            //     'type'  => 'repeatable_with_action',
+            //     'fields' => [
+            //         [
+            //             'name'    => 'position',
+            //             'type'    => 'text',
+            //             'label'   => trans('Position'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'organization',
+            //             'type'    => 'text',
+            //             'label'   => trans('Organization'),
+            //             'wrapper' => ['class' => 'form-group col-md-8'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'address',
+            //             'type'    => 'text',
+            //             'label'   => trans('Address'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'from',
+            //             'type'    => 'text',
+            //             'label'   => trans('From'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'to',
+            //             'type'    => 'text',
+            //             'label'   => trans('To'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //     ],
+            //     'min_rows' => 1,
+            // ],
+
+            [
+                'name'  => 'highest_degree',
+                'label'   => trans('Highest Degree Awarded So Far'),
+                'type'  => 'repeatable_with_action',
+                'fields' => [
+                    [
+                        'name'    => 'degree_name',
+                        'type'    => 'select_from_array',
+                        'options'=>Member::$degree_options,
+                        'label'   => trans('Academic Level'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'others_degree',
+                        'type'    => 'text',
+                        'label'   => trans('Other degree(If any)'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'subject_or_research_title',
+                        'type'    => 'text',
+                        'label'   => trans('Subject/Research Title'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'university_or_institution',
+                        'type'    => 'text',
+                        'label'   => trans('Name of University/Institution'),
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'country',
+                        'type'    => 'text',
+                        'label'   => trans('Country'),
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'year',
+                        'type'    => 'number',
+                        'label'   => trans('Year'),
+                        'wrapper' => ['class' => 'form-group col-md-3'],
+                        'required' => true
+                    ],
+                ],
+                'min_rows' => 1,
+                'max_rows'=>1
+            ],
+            [
+                'name'  => 'ait_study_details',
+                'label'   => trans('AIT Study Details'),
+                'type'  => 'repeatable_with_action',
+                'fields' => [
+                    [
+                        'name'    => 'academic_level',
+                        'type'    => 'select_from_array',
+                        'options'=>Member::$degree_options,
+                        'label'   => trans('Academic Level'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'name_of_degree',
+                        'type'    => 'text',
+                        'label'   => trans('Name of Degree'),
+                        'wrapper' => ['class' => 'form-group col-md-8'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'field_of_study',
+                        'type'    => 'text',
+                        'label'   => trans('Field of Study'),
+                        'wrapper' => ['class' => 'form-group col-md-8'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'graduation_year',
+                        'type'    => 'number',
+                        'label'   => trans('Graduation Year'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                ],
+                'min_rows' => 1,
+                'max_rows'=>1
+            ],
+
             [
                 'name'  => 'current_organization',
                 'label'   => trans('Current Organization'),
@@ -667,232 +762,137 @@ class MemberCrudController extends BaseCrudController
                     ],
                 ],
                 'min_rows' => 1,
+                'max_rows' => 1,
             ],
-
-
-            [
-                'name'  => 'past_organization',
-                'label'   => trans('Past Organization'),
-                'type'  => 'repeatable_with_action',
-                'fields' => [
-                    [
-                        'name'    => 'position',
-                        'type'    => 'text',
-                        'label'   => trans('Position'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'organization',
-                        'type'    => 'text',
-                        'label'   => trans('Organization'),
-                        'wrapper' => ['class' => 'form-group col-md-8'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'address',
-                        'type'    => 'text',
-                        'label'   => trans('Address'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'from',
-                        'type'    => 'text',
-                        'label'   => trans('From'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'to',
-                        'type'    => 'text',
-                        'label'   => trans('To'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
-
-            [
-                'name'  => 'doctorate_degree',
-                'label'   => trans('Doctorate Degree'),
-                'type'  => 'repeatable_with_action',
-                'fields' => [
-                    [
-                        'name'    => 'degree_name',
-                        'type'    => 'text',
-                        'label'   => trans('Degree Name'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'others_degree',
-                        'type'    => 'text',
-                        'label'   => trans('Other degree(If any)'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'subject_or_research_title',
-                        'type'    => 'text',
-                        'label'   => trans('Subject/Research Title'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'university_or_institution',
-                        'type'    => 'text',
-                        'label'   => trans('Name of University/Institution'),
-                        'wrapper' => ['class' => 'form-group col-md-6'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'country',
-                        'type'    => 'text',
-                        'label'   => trans('Country'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'year',
-                        'type'    => 'text',
-                        'label'   => trans('Year'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
-            [
-                'name'  => 'masters_degree',
-                'label'   => trans('Masters Degree'),
-                'type'  => 'repeatable_with_action',
-                'fields' => [
-                    [
-                        'name'    => 'degree_name',
-                        'type'    => 'text',
-                        'label'   => trans('Degree Name'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'others_degree',
-                        'type'    => 'text',
-                        'label'   => trans('Other degree(If any)'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'subject_or_research_title',
-                        'type'    => 'text',
-                        'label'   => trans('Subject/Research Title'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'university_or_institution',
-                        'type'    => 'text',
-                        'label'   => trans('Name of University/Institution'),
-                        'wrapper' => ['class' => 'form-group col-md-6'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'country',
-                        'type'    => 'text',
-                        'label'   => trans('Country'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'year',
-                        'type'    => 'text',
-                        'label'   => trans('Year'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
-            [
-                'name'  => 'bachelors_degree',
-                'label'   => trans('Bachelors Degree'),
-                'type'  => 'repeatable_with_action',
-                'fields' => [
-                    [
-                        'name'    => 'degree_name',
-                        'type'    => 'text',
-                        'label'   => trans('Degree Name'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'others_degree',
-                        'type'    => 'text',
-                        'label'   => trans('Other degree(If any)'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'subject_or_research_title',
-                        'type'    => 'text',
-                        'label'   => trans('Subject/Research Title'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'university_or_institution',
-                        'type'    => 'text',
-                        'label'   => trans('Name of University/Institution'),
-                        'wrapper' => ['class' => 'form-group col-md-6'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'country',
-                        'type'    => 'text',
-                        'label'   => trans('Country'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'year',
-                        'type'    => 'text',
-                        'label'   => trans('Year'),
-                        'wrapper' => ['class' => 'form-group col-md-3'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
-            [
-                'name'  => 'awards',
-                'label'   => trans('Awards'),
-                'type'  => 'repeatable_with_action',
-                'fields' => [
-                    [
-                        'name'    => 'award_name',
-                        'type'    => 'text', 
-                        'label'   => trans('Award Name'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'awarded_year',
-                        'type'    => 'text',
-                        'label'   => trans('Awarded year'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                    [
-                        'name'    => 'awarded_by',
-                        'type'    => 'text',
-                        'label'   => trans('Awarded By'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
+            // [
+            //     'name'  => 'masters_degree',
+            //     'label'   => trans('Masters Degree'),
+            //     'type'  => 'repeatable_with_action',
+            //     'fields' => [
+            //         [
+            //             'name'    => 'degree_name',
+            //             'type'    => 'text',
+            //             'label'   => trans('Degree Name'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'others_degree',
+            //             'type'    => 'text',
+            //             'label'   => trans('Other degree(If any)'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'subject_or_research_title',
+            //             'type'    => 'text',
+            //             'label'   => trans('Subject/Research Title'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'university_or_institution',
+            //             'type'    => 'text',
+            //             'label'   => trans('Name of University/Institution'),
+            //             'wrapper' => ['class' => 'form-group col-md-6'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'country',
+            //             'type'    => 'text',
+            //             'label'   => trans('Country'),
+            //             'wrapper' => ['class' => 'form-group col-md-3'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'year',
+            //             'type'    => 'text',
+            //             'label'   => trans('Year'),
+            //             'wrapper' => ['class' => 'form-group col-md-3'],
+            //             'required' => true
+            //         ],
+            //     ],
+            //     'min_rows' => 1,
+            // ],
+            // [
+            //     'name'  => 'bachelors_degree',
+            //     'label'   => trans('Bachelors Degree'),
+            //     'type'  => 'repeatable_with_action',
+            //     'fields' => [
+            //         [
+            //             'name'    => 'degree_name',
+            //             'type'    => 'text',
+            //             'label'   => trans('Degree Name'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'others_degree',
+            //             'type'    => 'text',
+            //             'label'   => trans('Other degree(If any)'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'subject_or_research_title',
+            //             'type'    => 'text',
+            //             'label'   => trans('Subject/Research Title'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'university_or_institution',
+            //             'type'    => 'text',
+            //             'label'   => trans('Name of University/Institution'),
+            //             'wrapper' => ['class' => 'form-group col-md-6'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'country',
+            //             'type'    => 'text',
+            //             'label'   => trans('Country'),
+            //             'wrapper' => ['class' => 'form-group col-md-3'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'year',
+            //             'type'    => 'text',
+            //             'label'   => trans('Year'),
+            //             'wrapper' => ['class' => 'form-group col-md-3'],
+            //             'required' => true
+            //         ],
+            //     ],
+            //     'min_rows' => 1,
+            // ],
+            // [
+            //     'name'  => 'awards',
+            //     'label'   => trans('Awards'),
+            //     'type'  => 'repeatable_with_action',
+            //     'fields' => [
+            //         [
+            //             'name'    => 'award_name',
+            //             'type'    => 'text', 
+            //             'label'   => trans('Award Name'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'awarded_year',
+            //             'type'    => 'text',
+            //             'label'   => trans('Awarded year'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //         [
+            //             'name'    => 'awarded_by',
+            //             'type'    => 'text',
+            //             'label'   => trans('Awarded By'),
+            //             'wrapper' => ['class' => 'form-group col-md-4'],
+            //             'required' => true
+            //         ],
+            //     ],
+            //     'min_rows' => 1,
+            // ],
             [
                 'name'  => 'expertise',
                 'label'   => trans('Expertise'),
@@ -909,26 +909,26 @@ class MemberCrudController extends BaseCrudController
                         'required' => true
                     ],
                 ],
-                'min_rows' => 1,
+                'min_rows' => 3,
             ],
-            [
-                'name'  => 'affiliation',
-                'label'   => trans('Affiliation'),
-                'type'  => 'repeatable_with_action',
-                'wrapper'=>[
-                    'class'=>'col-md-6'
-                ],
-                'fields' => [
-                    [
-                        'name'    => 'name',
-                        'type'    => 'text',
-                        'label'   => trans('Affiliation Title'),
-                        'wrapper' => ['class' => 'form-group col-md-12'],
-                        'required' => true
-                    ],
-                ],
-                'min_rows' => 1,
-            ],
+            // [
+            //     'name'  => 'affiliation',
+            //     'label'   => trans('Affiliation'),
+            //     'type'  => 'repeatable_with_action',
+            //     'wrapper'=>[
+            //         'class'=>'col-md-6'
+            //     ],
+            //     'fields' => [
+            //         [
+            //             'name'    => 'name',
+            //             'type'    => 'text',
+            //             'label'   => trans('Affiliation Title'),
+            //             'wrapper' => ['class' => 'form-group col-md-12'],
+            //             'required' => true
+            //         ],
+            //     ],
+            //     'min_rows' => 1,
+            // ],
 
             [
                 'name'=>'custom_html_2',
@@ -937,58 +937,27 @@ class MemberCrudController extends BaseCrudController
                 'value'=>'</br>'
             ],
 
-            [
-                'name'=>'national_publication',
-                'type'=>'number',
-                'label'=>'No. of National Publications',
-                'wrapper'=>[
-                    'class'=>'form-group col-md-6'
-                ],
-                'default'=>0
-            ],
-            [
-                'name'=>'international_publication',
-                'type'=>'number',
-                'label'=>'No. of International Publications',
-                'wrapper'=>[
-                    'class'=>'form-group col-md-6'
-                ],
-                'default'=>0
+            // [
+            //     'name'=>'national_publication',
+            //     'type'=>'number',
+            //     'label'=>'No. of National Publications',
+            //     'wrapper'=>[
+            //         'class'=>'form-group col-md-6'
+            //     ],
+            //     'default'=>0
+            // ],
+            // [
+            //     'name'=>'international_publication',
+            //     'type'=>'number',
+            //     'label'=>'No. of International Publications',
+            //     'wrapper'=>[
+            //         'class'=>'form-group col-md-6'
+            //     ],
+            //     'default'=>0
                 
-            ],
-            [
-                'name' => 'mailing_address',
-                'label' => trans('Mailing Address'),
-                'type' => 'text',
-                'attributes'=>[
-                    'max-lenght'=>500,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-12',
-                ],
-            ],
-            [
-                'name' => 'phone',
-                'label' => trans('Phone/Cell'),
-                'type' => 'text',
-                'attributes'=>[
-                    'max-lenght'=>200,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-12',
-                ],
-            ],
-            [
-                'name' => 'email',
-                'label' => trans('E-mail'),
-                'type' => 'text',
-                'attributes'=>[
-                    'max-lenght'=>500,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-12',
-                ],
-            ],
+            // ],
+       
+           
             [   // Upload
                 'name' => 'document_path',
                 'label' => trans('Upload a proof for your student affiliation/graduation from AIT'),
@@ -999,17 +968,17 @@ class MemberCrudController extends BaseCrudController
                     'class' => 'form-group col-md-12',
                 ],
             ],
-            // [
-            //     'name' => 'link_to_google_scholar',
-            //     'label' => trans('Link to Google Scholar'),
-            //     'type' => 'url',
-            //     'attributes'=>[
-            //         'max-lenght'=>100,
-            //     ],
-            //     'wrapper' => [
-            //         'class' => 'form-group col-md-12',
-            //     ],
-            // ],
+            [
+                'name' => 'link_to_google_scholar',
+                'label' => trans('Link to Google Scholar'),
+                'type' => 'url',
+                'attributes'=>[
+                    'max-lenght'=>100,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-12',
+                ],
+            ],
             $status
          
 

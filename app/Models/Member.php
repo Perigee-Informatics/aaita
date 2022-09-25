@@ -11,6 +11,8 @@ class Member extends BaseModel
 {
     use CrudTrait;
 
+    static $degree_options=[1=>'PhD/ DE/ Doctorate',2=>'Post Graduate/ Masters',3=>'Undergraduate',4=>'Other Diploma/ Professional Courses'];
+
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
@@ -23,10 +25,9 @@ class Member extends BaseModel
 
     public static $status = [1=>'Applied',2=>'Under Review',3=>'Approved'];
     protected $guarded = ['id'];
-    protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','full_name','photo_path',
-                        'is_other_country','country_id','province_id','district_id','current_organization','past_organization',
-                        'doctorate_degree','masters_degree','bachelors_degree','awards','expertise','affiliation',
-                        'mailing_address','phone','email','international_publication','national_publication','status','document_path'];
+    protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','full_name','photo_path','current_country_id','city_of_residence',
+                        'is_other_country','country_id','province_id','district_id','current_organization','past_organization','expertise',
+                        'mailing_address','phone','email','status','document_path','highest_degree','ait_study_details'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -43,6 +44,10 @@ class Member extends BaseModel
     public function genderEntity()
     {
         return $this->belongsTo(MstGender::class,'gender_id','id');
+    }
+    public function currentCountryEntity()
+    {
+        return $this->belongsTo(Country::class,'current_country_id','id');
     }
 
     /*
