@@ -425,7 +425,7 @@ class MemberCrudController extends BaseCrudController
 
             [
                 'name' => 'full_name',
-                'label' => trans('First Name'),
+                'label' => trans('Full Name'),
                 'type' => 'text',
                 'attributes'=>[
                     'id' => 'name-en',
@@ -602,7 +602,7 @@ class MemberCrudController extends BaseCrudController
                 'minimum_input_length' => 0,
                 'dependencies'         => ['province_id'],
                 'include_all_form_fields'=>true,
-                'method'=>'GET',
+                'method'=>'POST',
                 'wrapper' => [
                     'class' => 'form-group col-md-4',
                 ],

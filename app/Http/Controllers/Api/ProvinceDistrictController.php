@@ -13,6 +13,7 @@ class ProvinceDistrictController extends Controller
         $search_term = $request->input('q');
         $form = collect($request->input('form'))->pluck('value', 'name');
 
+
         $options = MstFedDistrict::query();
 
         // if no district has been selected, show no options in localevel

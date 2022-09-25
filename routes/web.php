@@ -38,7 +38,7 @@ Route::get('/home/get-page-content', [DashboardController::class,'getPageContent
 Route::get('/admin', [AdminController::class,'redirect']);
 
 
-Route::get('api/district/{province_id}', [ProvinceDistrictController::class,'index']);
+Route::post('api/district/{province_id}', [ProvinceDistrictController::class,'index']);
 Route::get('api/get_locallevel/{add_district_id}', [DistrictLocalLevelController::class,'index']);
 
 Route::get('/district/{id}', [DependentDropdownController::class, 'getdistrict']);

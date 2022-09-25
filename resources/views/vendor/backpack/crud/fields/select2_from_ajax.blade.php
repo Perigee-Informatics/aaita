@@ -129,6 +129,8 @@
             });
         };
 
+       
+
         // do not initialise select2s that have already been initialised
         if ($(element).hasClass("select2-hidden-accessible"))
         {
@@ -146,6 +148,9 @@
                 type: $method,
                 dataType: 'json',
                 delay: $ajaxDelay,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: function (params) {
                     if ($includeAllFormFields) {
                         return {
