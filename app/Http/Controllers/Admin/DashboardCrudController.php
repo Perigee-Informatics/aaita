@@ -186,39 +186,18 @@ class DashboardCrudController extends BaseCrudController
             $local_level_clause = 'mfll.id='.$request->area_id;
         }
 
-        $channel_wiw = $request->datas['channel_wiw'];
-        $channel_wsfn = $request->datas['channel_wsfn'];
-        $channel_foreign = $request->datas['channel_foreign'];
-        
-        $channel_wiw_clause = '1=1';
-        $channel_wsfn_clause = '1=1';
-        $channel_foreign_clause = '1=1';
-
-        if($channel_wiw){
-            $channel_wiw_clause = 'm.channel_wiw='.$channel_wiw;
-        }
-        if($channel_wsfn){
-            $channel_wsfn_clause = 'm.channel_wsfn='.$channel_wsfn;
-        }
-        if($channel_foreign){
-            $channel_foreign_clause = 'm.channel_foreign='.$channel_foreign;
-        }
-
-     
         $members =  DB::table('members as m')
                         ->join('mst_fed_district as mfd', 'm.district_id','mfd.id')
                         ->join('mst_fed_province as mfp','m.province_id','mfp.id')
                         ->join('mst_gender as mg','m.gender_id','mg.id')
-                        ->select('m.id','mfp.name_en as province','mfd.name_en as district','m.first_name','m.last_name','mg.name_en as gender',
-                        'mfd.gps_lat as lat','mfd.gps_long as long','m.channel_wiw','m.channel_wsfn','channel_foreign')
-                        ->where(function($query)use($channel_wiw_clause,$channel_wsfn_clause){
-                            $query->whereRaw($channel_wiw_clause)->orWhereRaw($channel_wsfn_clause);
-                        })
+                        ->select('m.id','mfp.name_en as province','mfd.name_en as district','m.full_name','mg.name_en as gender',
+                        'mfd.gps_lat as lat','mfd.gps_long as long')
                         ->whereRaw($province_clause)
                         ->whereRaw($district_clause)
                         ->whereRaw($local_level_clause)
                         ->where('m.status',3)
                         ->get();
+
         $members = json_encode($members);
 
         return response()->json($members);
@@ -254,23 +233,6 @@ class DashboardCrudController extends BaseCrudController
     {
         $data['level'] = -1;
 
-        $channel_wiw = $request->datas['channel_wiw'];
-        $channel_wsfn = $request->datas['channel_wsfn'];
-        $channel_foreign = $request->datas['channel_foreign'];
-        
-        $channel_wiw_clause = '1=1';
-        $channel_wsfn_clause = '1=1';
-        $channel_foreign_clause = '1=1';
-
-        if($channel_wiw){
-            $channel_wiw_clause = 'm.channel_wiw='.$channel_wiw;
-        }
-        if($channel_wsfn){
-            $channel_wsfn_clause = 'm.channel_wsfn='.$channel_wsfn;
-        }
-        if($channel_foreign){
-            $channel_foreign_clause = 'm.channel_foreign='.$channel_foreign;
-        }
 
         $districts =DB::table('mst_fed_local_level')->distinct('district_id')->pluck('district_id');
         $local_level=DB::table('mst_fed_local_level')->whereIn('district_id',$districts)->pluck('level_type_id')->toArray();
@@ -286,9 +248,6 @@ class DashboardCrudController extends BaseCrudController
 
         $members = DB::table('members as m')
                     ->select('*')
-                    ->where(function($query)use($channel_wiw_clause,$channel_wsfn_clause){
-                        $query->whereRaw($channel_wiw_clause)->orWhereRaw($channel_wsfn_clause);
-                    })
                     ->where('m.status',3)
                     ->get();
 
@@ -299,10 +258,6 @@ class DashboardCrudController extends BaseCrudController
                                 DB::raw('count(case when gender_id = 1 then 1 end) as male'),
                                 DB::raw('count(case when gender_id = 2 then 1 end) as female'),
                                 DB::raw('count(m.gender_id) as total'))
-                        ->where(function($query)use($channel_wiw_clause,$channel_wsfn_clause){
-                            $query->whereRaw($channel_wiw_clause)->orWhereRaw($channel_wsfn_clause);
-                        })
-                        ->whereRaw($channel_foreign_clause)
                         ->where('m.status',3)
                         ->groupBy('m.province_id','mfp.name_en')
                         ->orderBy('m.province_id')
@@ -371,24 +326,6 @@ class DashboardCrudController extends BaseCrudController
         $province_id = $request->id;
         $data['level'] = 0;
 
-        $channel_wiw = $request->datas['channel_wiw'];
-        $channel_wsfn = $request->datas['channel_wsfn'];
-        $channel_foreign = $request->datas['channel_foreign'];
-        
-        $channel_wiw_clause = '1=1';
-        $channel_wsfn_clause = '1=1';
-        $channel_foreign_clause = '1=1';
-
-        if($channel_wiw){
-            $channel_wiw_clause = 'm.channel_wiw='.$channel_wiw;
-        }
-        if($channel_wsfn){
-            $channel_wsfn_clause = 'm.channel_wsfn='.$channel_wsfn;
-        }
-        if($channel_foreign){
-            $channel_foreign_clause = 'm.channel_foreign='.$channel_foreign;
-        }
-
         $districts =DB::table('mst_fed_district')->whereProvinceId($province_id)->pluck('id');
 
 
@@ -411,9 +348,6 @@ class DashboardCrudController extends BaseCrudController
                                             DB::raw('count(case when gender_id = 1 then 1 end) as male'),
                                             DB::raw('count(case when gender_id = 2 then 1 end) as female'),
                                             DB::raw('count(m.gender_id) as total'))
-                                    ->where(function($query)use($channel_wiw_clause,$channel_wsfn_clause){
-                                        $query->whereRaw($channel_wiw_clause)->orWhereRaw($channel_wsfn_clause);
-                                    })
                                     ->where('m.status',3)
                                     ->where('mfd.province_id',$province_id)
                                     ->groupBy('m.district_id','mfp.id','mfd.name_en')
@@ -447,9 +381,6 @@ class DashboardCrudController extends BaseCrudController
             $members = DB::table('members as m')
                         ->select('*')
                         ->whereProvinceId($province_id)
-                        ->where(function($query)use($channel_wiw_clause,$channel_wsfn_clause){
-                            $query->whereRaw($channel_wiw_clause)->orWhereRaw($channel_wsfn_clause);
-                        })
                         ->where('m.status',3)
                         ->get();
 

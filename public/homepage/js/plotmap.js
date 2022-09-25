@@ -30,7 +30,6 @@ var markerClusters = L.markerClusterGroup({
 });
 
 hideAllBreadCrumb();
-channelFilter(-1,-1,false);
 
 function hideAllBreadCrumb() {
     hideProvinceBreadCrumb();
@@ -142,33 +141,21 @@ function onEachProvinceFeature(feature, layer) {
 
 var markers = [];
 
-
-var channel_wiw = true;
-var channel_wsfn = false;
-var channel_foreign = false;
-
-$('input[type=checkbox]').click(function(){ channelFilter(current_level,current_areaId,true)});
-
 function showMembersData(level,areaId,clicked=false){
 
     var url = '/get-all-members?level='+level+'&&area_id='+areaId;
 
         markerClusters.clearLayers();
-        var datas={
-            'channel_wiw':channel_wiw,
-            'channel_wsfn':channel_wsfn,
-            'channel_foreign':channel_foreign,
-        };
+  
         $('#loading').html('<div class="text-center"><img src="/gif/loading.gif"/></div>');
-    $.get(url,{datas}, function (data) {
+    $.get(url,function (data) {
 
         if (data.length != 0) {
             membersData = JSON.parse(data);
 
             membersData.forEach(function (member) {
                 member_id = member.id;
-                first_name = member.first_name;
-                last_name = member.last_name;
+                full_name = member.full_name;
                 province = member.province;
                 district = member.district;
 
@@ -184,8 +171,7 @@ function showMembersData(level,areaId,clicked=false){
                 var display_icon = L.icon({ iconUrl: icon, iconSize: [25, 25] });
 
                 new_marker = new L.marker([lat, long], { icon: display_icon }).bindPopup(
-                    '<b>First Name : ' + '<font color="green">' + first_name + '</font></b>' + '<br>' +
-                    '<b>Last Name: ' + '<font color="green">' + last_name+ '</font></b>' + '<br>' +
+                    '<b>Full Name : ' + '<font color="green">' + full_name + '</font></b>' + '<br>' +
                     '<b>Province : ' + '<font color="red">' + province + '</font></b>' + '<br>' +
                     '<b>District :' + '<font color="blue">' + district + '</font></b>' + '<br><br>' +
                     '<b><center><a href="' + member_url + '" target="_blank"><i class="la la-file-pdf-o"></i>View Profile</a></center></b>',
@@ -722,8 +708,7 @@ function resetToLocalLevel(id) {
 
             membersData.forEach(function (member) {
                 member_id = member.id;
-                first_name = member.first_name;
-                last_name = member.last_name;
+                full_name = member.full_name;
                 province = member.province;
                 district = member.district;
 
@@ -739,8 +724,7 @@ function resetToLocalLevel(id) {
                 var display_icon = L.icon({ iconUrl: icon, iconSize: [25, 25] });
 
                 new_marker = new L.marker([lat, long], { icon: display_icon }).bindPopup(
-                    '<b>First Name : ' + '<font color="green">' + first_name + '</font></b>' + '<br>' +
-                    '<b>Last Name: ' + '<font color="green">' + last_name+ '</font></b>' + '<br>' +
+                    '<b>Full Name : ' + '<font color="green">' + full_name + '</font></b>' + '<br>' +
                     '<b>Province : ' + '<font color="red">' + province + '</font></b>' + '<br>' +
                     '<b>District :' + '<font color="blue">' + district + '</font></b>' + '<br>' +
                     '<b><a href="' + member_url + '" target="_blank"><i class="la la-eye"></i>View Details</a></b>' + '<br>',
@@ -758,43 +742,13 @@ function resetToLocalLevel(id) {
     });
 }
 
-function channelFilter(level,areaId,click_action)
-{
-
-    var ch_checkbox = $('[name="channel_filter[]"]');
-
-    ch_checkbox.each(function(){
-
-        if(this.checked){
-            if(this.value=='channel_wiw') channel_wiw=true;
-            if(this.value=='channel_wsfn') channel_wsfn=true;
-            if(this.value=='channel_foreign') channel_foreign=true;
-        }else{
-            if(this.value=='channel_wiw') channel_wiw=false;
-            if(this.value=='channel_wsfn') channel_wsfn=false;
-            if(this.value=='channel_foreign') channel_foreign=false;
-        }
-    });
-
-        if(click_action){
-            showMembersData(level,areaId,true)
-            updateGeoData(areaId,level)
-        }
-
-}
 
 //get GeoData
 
 function updateGeoData(id,level){
     var url = '/get-geodata?id='+id+'&&level='+level;
 
-    var datas={
-        'channel_wiw':channel_wiw,
-        'channel_wsfn':channel_wsfn,
-        'channel_foreign':channel_foreign,
-    };
-
-    $.get(url,{datas},function (data){
+    $.get(url,function (data){
         //data for fed_area section
         //show fed level information only if map_level is below 2
         if(data.level === 2){
