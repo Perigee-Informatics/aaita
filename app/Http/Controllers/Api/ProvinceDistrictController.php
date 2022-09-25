@@ -27,7 +27,7 @@ class ProvinceDistrictController extends Controller
         }
 
         if ($search_term) {
-            $results = $options->where('name_en', 'LIKE', '%' . $search_term . '%')->paginate(10);
+            $results = $options->where('name_en', 'iLIKE', '%' . $search_term . '%')->paginate(10);
         } else {
             $results = $options->paginate(10);
         }
