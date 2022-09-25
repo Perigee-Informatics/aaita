@@ -15,6 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Base\BaseCrudController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\MemberRequest;
+use App\Models\MstFedLocalLevel;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -382,6 +383,11 @@ class MemberCrudController extends BaseCrudController
 
         // CRUD::setFromDb(); // fields
         $arr=[
+            [
+                'name' => 'legend1',
+                'type' => 'custom_html',
+                'value' => '<legend>Personal Information</legend><hr class="m-0">',
+            ],
 
             [
                 'name' => 'full_name',
@@ -415,7 +421,8 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('E-mail'),
                 'type' => 'text',
                 'attributes'=>[
-                    'max-lenght'=>500,
+                    'max-length'=>500,
+                    'required' => 'required',
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-7',
@@ -426,7 +433,8 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('Phone/Cell'),
                 'type' => 'text',
                 'attributes'=>[
-                    'max-lenght'=>200,
+                    'max-length'=>200,
+                    'required' => 'required',
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-5',
@@ -437,7 +445,7 @@ class MemberCrudController extends BaseCrudController
             [
                 'name' => 'dob_bs',
                 'type' => 'nepali_date',
-                'label' => trans('D.O.B(B.S)'),
+                'label' => trans('D.O.B (B.S.)'),
                 'attributes'=>[
                     'id'=>'date_bs',
                     'relatedId'=>'dob_ad',
@@ -452,7 +460,7 @@ class MemberCrudController extends BaseCrudController
             [
                 'name' => 'dob_ad',
                 'type' => 'date',
-                'label' => trans('D.O.B(A.D)'),
+                'label' => trans('D.O.B  (A.D.)'),
                 'attributes'=>[
                     'id'=>'dob_ad',
                     'required'=>'required'
@@ -479,10 +487,168 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('Current Postal Address'),
                 'type' => 'text',
                 'attributes'=>[
-                    'max-lenght'=>500,
+                    'max-length'=>500,
+                    'required' => 'required',
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-12',
+                ],
+            ],
+            [
+                'name' => 'legend2',
+                'type' => 'custom_html',
+                'value' => '<legend>Permanent Address</legend><hr class="m-0">',
+            ],
+            [
+                'name'=>'province_id',
+                'type'=>'select2',
+                'label'=>trans('Province'),
+                'entity'=>'provinceEntity',
+                'model'=>MstFedProvince::class,
+                'attribute'=>'name_en',
+                'attributes'=>[
+                    'required' => 'required',
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-3',
+                ],
+            ],
+            [
+                'name'=>'district_id',
+                'label'=>trans('District'),
+                'type'=>'select2_from_ajax',
+                'model'=>MstFedDistrict::class,
+                'entity'=>'districtEntity',
+                'attribute'=>'name_en',
+                'data_source' => url("api/district/province_id"),
+                'placeholder' => "Select District",
+                'minimum_input_length' => 0,
+                'dependencies'         => ['province_id'],
+                'include_all_form_fields'=>true,
+                'method'=>'POST',
+                'wrapper' => [
+                    'class' => 'form-group col-md-3',
+                ],
+                'attributes'=>[
+                    'required' => 'required',
+                ],
+            ],
+            [
+                'name'=>'local_level_id',
+                'label'=>trans('Local Level'),
+                'type'=>'select2_from_ajax',
+                'model'=>MstFedLocalLevel::class,
+                'entity'=>'localLevelEntity',
+                'attribute'=>'name_en',
+                'data_source' => url("api/locallevel/district_id"),
+                'placeholder' => "Select Local Level",
+                'minimum_input_length' => 0,
+                'dependencies'         => ['district_id'],
+                'include_all_form_fields'=>true,
+                'method'=>'POST',
+                'wrapper' => [
+                    'class' => 'form-group col-md-4',
+                ],
+                'attributes'=>[
+                    'required' => 'required',
+                ],
+            ],
+            [
+                'name' => 'ward',
+                'label' => trans('Ward'),
+                'type' => 'number',
+                'attributes'=>[
+                    'max-length'=>2,
+                    'required' => 'required',
+                ],
+                'default'=>0,
+                'wrapper' => [
+                    'class' => 'form-group col-md-2',
+                ],
+            ],
+            [
+                'name' => 'legend3',
+                'type' => 'custom_html',
+                'value' => '<legend>Residential Address</legend><hr class="m-0">',
+            ],
+            [ //Toggle
+                'name' => 'is_other_country',
+                'label' => trans('Is Current Country Nepal ?'),
+                'type' => 'toggle',
+                'options'     => [ 
+                    0 => trans('Nepal'),
+                    1 => trans('Abroad'),
+                ],
+                'inline' => true,
+                'wrapper' => [
+                    'class' => 'form-group col-md-12',
+                ],
+                'attributes' =>[
+                    'id' => 'is_other_country',
+                ],
+                'hide_when' => [
+                    0 => ['current_country_id','city_of_residence'],
+                    1 => ['current_province_id','current_district_id','current_local_level_id','current_ward','custom_html_1'],
+                ],
+                'default' => 0,
+            ],
+         
+            [
+                'name'=>'current_province_id',
+                'type'=>'select2',
+                'label'=>trans('Province'),
+                'entity'=>'currentProvinceEntity',
+                'model'=>MstFedProvince::class,
+                'attribute'=>'name_en',
+                'wrapper' => [
+                    'class' => 'form-group col-md-3',
+                ],
+            ],
+            [
+                'name'=>'current_district_id',
+                'label'=>trans('District'),
+                'type'=>'select2_from_ajax',
+                'model'=>MstFedDistrict::class,
+                'entity'=>'currentDistrictEntity',
+                'attribute'=>'name_en',
+                'data_source' => url("api/district/current_province_id"),
+                'placeholder' => "Select District",
+                'minimum_input_length' => 0,
+                'dependencies'         => ['current_province_id'],
+                'include_all_form_fields'=>true,
+                'method'=>'POST',
+                'wrapper' => [
+                    'class' => 'form-group col-md-3',
+                ],
+
+            ],
+            [
+                'name'=>'current_local_level_id',
+                'label'=>trans('Local Level'),
+                'type'=>'select2_from_ajax',
+                'model'=>MstFedLocalLevel::class,
+                'entity'=>'currentLocalLevelEntity',
+                'attribute'=>'name_en',
+                'data_source' => url("api/locallevel/current_district_id"),
+                'placeholder' => "Select Local Level",
+                'minimum_input_length' => 0,
+                'dependencies'         => ['current_district_id'],
+                'include_all_form_fields'=>true,
+                'method'=>'POST',
+                'wrapper' => [
+                    'class' => 'form-group col-md-4',
+                ],
+            ],
+            [
+                'name' => 'current_ward',
+                'label' => trans('Ward'),
+                'type' => 'number',
+                'attributes'=>[
+                    'max-length'=>2,
+                ],
+                'default'=>0,
+                'wrapper' => [
+                    'class' => 'form-group col-md-2',
                 ],
             ],
             [
@@ -502,132 +668,18 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('City of Residence'),
                 'type' => 'text',
                 'attributes'=>[
-                    'max-lenght'=>500,
+                    'max-length'=>500,
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-6',
                 ],
             ],
             [
-                'name'=>'custom_html',
-                'fake'=>true,
-                'type'=>'custom_html',
-                'value'=>'</br>'
+                'name' => 'legend4',
+                'type' => 'custom_html',
+                'value' => '<legend>Academic Details</legend><hr class="m-0">',
             ],
-
-            [ //Toggle
-                'name' => 'is_other_country',
-                'label' => trans('Is Other Country ?'),
-                'type' => 'toggle',
-                'options'     => [ 
-                    0 => trans('Nepal'),
-                    1 => trans('Other'),
-                ],
-                'inline' => true,
-                'wrapper' => [
-                    'class' => 'form-group col-md-4',
-                ],
-                'attributes' =>[
-                    'id' => 'is_other_country',
-                ],
-                'hide_when' => [
-                    0 => ['country_id'],
-                    1 => ['province_id','district_id'],
-                ],
-                'default' => 0,
-            ],
-            [
-                'name'=>'province_id',
-                'type'=>'select2',
-                'label'=>trans('Province'),
-                'entity'=>'provinceEntity',
-                'model'=>MstFedProvince::class,
-                'attribute'=>'name_en',
-                'wrapper' => [
-                    'class' => 'form-group col-md-4',
-                ],
-            ],
-            [
-                'name'=>'district_id',
-                'label'=>trans('District'),
-                'type'=>'select2_from_ajax',
-                'model'=>MstFedDistrict::class,
-                'entity'=>'districtEntity',
-                'attribute'=>'name_en',
-                'data_source' => url("api/district/province_id"),
-                'placeholder' => "Select a District",
-                'minimum_input_length' => 0,
-                'dependencies'         => ['province_id'],
-                'include_all_form_fields'=>true,
-                'method'=>'POST',
-                'wrapper' => [
-                    'class' => 'form-group col-md-4',
-                ],
-            ],
-        
-            [
-                'name'=>'country_id',
-                'type'=>'select2',
-                'label'=>trans("Country"),
-                'entity'=>'countryEntity',
-                'model'=>Country::class,
-                'attribute'=>'name_en',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-4',
-                ],
-                'attributes'=> [
-                    'id'=> 'country-id',
-                ],
-                'default'=>153
-            ],
-
-            
-
-
-            // [
-            //     'name'  => 'past_organization',
-            //     'label'   => trans('Past Organization'),
-            //     'type'  => 'repeatable_with_action',
-            //     'fields' => [
-            //         [
-            //             'name'    => 'position',
-            //             'type'    => 'text',
-            //             'label'   => trans('Position'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'organization',
-            //             'type'    => 'text',
-            //             'label'   => trans('Organization'),
-            //             'wrapper' => ['class' => 'form-group col-md-8'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'address',
-            //             'type'    => 'text',
-            //             'label'   => trans('Address'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'from',
-            //             'type'    => 'text',
-            //             'label'   => trans('From'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'to',
-            //             'type'    => 'text',
-            //             'label'   => trans('To'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //     ],
-            //     'min_rows' => 1,
-            // ],
-
+          
             [
                 'name'  => 'highest_degree',
                 'label'   => trans('Highest Degree Awarded So Far'),
@@ -672,7 +724,7 @@ class MemberCrudController extends BaseCrudController
                     [
                         'name'    => 'year',
                         'type'    => 'number',
-                        'label'   => trans('Year'),
+                        'label'   => trans('Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-3'],
                         'required' => true
                     ],
@@ -682,7 +734,7 @@ class MemberCrudController extends BaseCrudController
             ],
             [
                 'name'  => 'ait_study_details',
-                'label'   => trans('AIT Study Details'),
+                'label'   => trans('Latest AIT Study Details'),
                 'type'  => 'repeatable_with_action',
                 'fields' => [
                     [
@@ -710,13 +762,18 @@ class MemberCrudController extends BaseCrudController
                     [
                         'name'    => 'graduation_year',
                         'type'    => 'number',
-                        'label'   => trans('Graduation Year'),
+                        'label'   => trans('Graduation Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                         'required' => true
                     ],
                 ],
                 'min_rows' => 1,
                 'max_rows'=>1
+            ],
+            [
+                'name' => 'legend5',
+                'type' => 'custom_html',
+                'value' => '<legend>Profession and Expertise</legend><hr class="m-0">',
             ],
 
             [
@@ -748,14 +805,14 @@ class MemberCrudController extends BaseCrudController
                     [
                         'name'    => 'from',
                         'type'    => 'text',
-                        'label'   => trans('From'),
+                        'label'   => trans('From Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                         'required' => true
                     ],
                     [
                         'name'    => 'to',
                         'type'    => 'text',
-                        'label'   => trans('To'),
+                        'label'   => trans('To Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
                         'required' => true,
                         'default'=>'Present'
@@ -764,135 +821,7 @@ class MemberCrudController extends BaseCrudController
                 'min_rows' => 1,
                 'max_rows' => 1,
             ],
-            // [
-            //     'name'  => 'masters_degree',
-            //     'label'   => trans('Masters Degree'),
-            //     'type'  => 'repeatable_with_action',
-            //     'fields' => [
-            //         [
-            //             'name'    => 'degree_name',
-            //             'type'    => 'text',
-            //             'label'   => trans('Degree Name'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'others_degree',
-            //             'type'    => 'text',
-            //             'label'   => trans('Other degree(If any)'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'subject_or_research_title',
-            //             'type'    => 'text',
-            //             'label'   => trans('Subject/Research Title'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'university_or_institution',
-            //             'type'    => 'text',
-            //             'label'   => trans('Name of University/Institution'),
-            //             'wrapper' => ['class' => 'form-group col-md-6'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'country',
-            //             'type'    => 'text',
-            //             'label'   => trans('Country'),
-            //             'wrapper' => ['class' => 'form-group col-md-3'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'year',
-            //             'type'    => 'text',
-            //             'label'   => trans('Year'),
-            //             'wrapper' => ['class' => 'form-group col-md-3'],
-            //             'required' => true
-            //         ],
-            //     ],
-            //     'min_rows' => 1,
-            // ],
-            // [
-            //     'name'  => 'bachelors_degree',
-            //     'label'   => trans('Bachelors Degree'),
-            //     'type'  => 'repeatable_with_action',
-            //     'fields' => [
-            //         [
-            //             'name'    => 'degree_name',
-            //             'type'    => 'text',
-            //             'label'   => trans('Degree Name'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'others_degree',
-            //             'type'    => 'text',
-            //             'label'   => trans('Other degree(If any)'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'subject_or_research_title',
-            //             'type'    => 'text',
-            //             'label'   => trans('Subject/Research Title'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'university_or_institution',
-            //             'type'    => 'text',
-            //             'label'   => trans('Name of University/Institution'),
-            //             'wrapper' => ['class' => 'form-group col-md-6'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'country',
-            //             'type'    => 'text',
-            //             'label'   => trans('Country'),
-            //             'wrapper' => ['class' => 'form-group col-md-3'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'year',
-            //             'type'    => 'text',
-            //             'label'   => trans('Year'),
-            //             'wrapper' => ['class' => 'form-group col-md-3'],
-            //             'required' => true
-            //         ],
-            //     ],
-            //     'min_rows' => 1,
-            // ],
-            // [
-            //     'name'  => 'awards',
-            //     'label'   => trans('Awards'),
-            //     'type'  => 'repeatable_with_action',
-            //     'fields' => [
-            //         [
-            //             'name'    => 'award_name',
-            //             'type'    => 'text', 
-            //             'label'   => trans('Award Name'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'awarded_year',
-            //             'type'    => 'text',
-            //             'label'   => trans('Awarded year'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //         [
-            //             'name'    => 'awarded_by',
-            //             'type'    => 'text',
-            //             'label'   => trans('Awarded By'),
-            //             'wrapper' => ['class' => 'form-group col-md-4'],
-            //             'required' => true
-            //         ],
-            //     ],
-            //     'min_rows' => 1,
-            // ],
+           
             [
                 'name'  => 'expertise',
                 'label'   => trans('Expertise'),
@@ -904,32 +833,13 @@ class MemberCrudController extends BaseCrudController
                     [
                         'name'    => 'name',
                         'type'    => 'text',
-                        'label'   => trans('Expertise Title'),
+                        'label'   => trans('Expertise Area'),
                         'wrapper' => ['class' => 'form-group col-md-12'],
                         'required' => true
                     ],
                 ],
                 'min_rows' => 3,
             ],
-            // [
-            //     'name'  => 'affiliation',
-            //     'label'   => trans('Affiliation'),
-            //     'type'  => 'repeatable_with_action',
-            //     'wrapper'=>[
-            //         'class'=>'col-md-6'
-            //     ],
-            //     'fields' => [
-            //         [
-            //             'name'    => 'name',
-            //             'type'    => 'text',
-            //             'label'   => trans('Affiliation Title'),
-            //             'wrapper' => ['class' => 'form-group col-md-12'],
-            //             'required' => true
-            //         ],
-            //     ],
-            //     'min_rows' => 1,
-            // ],
-
             [
                 'name'=>'custom_html_2',
                 'fake'=>true,
@@ -937,26 +847,6 @@ class MemberCrudController extends BaseCrudController
                 'value'=>'</br>'
             ],
 
-            // [
-            //     'name'=>'national_publication',
-            //     'type'=>'number',
-            //     'label'=>'No. of National Publications',
-            //     'wrapper'=>[
-            //         'class'=>'form-group col-md-6'
-            //     ],
-            //     'default'=>0
-            // ],
-            // [
-            //     'name'=>'international_publication',
-            //     'type'=>'number',
-            //     'label'=>'No. of International Publications',
-            //     'wrapper'=>[
-            //         'class'=>'form-group col-md-6'
-            //     ],
-            //     'default'=>0
-                
-            // ],
-       
            
             [   // Upload
                 'name' => 'document_path',
@@ -973,7 +863,18 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('Link to Google Scholar'),
                 'type' => 'url',
                 'attributes'=>[
-                    'max-lenght'=>100,
+                    'max-length'=>100,
+                ],
+                'wrapper' => [
+                    'class' => 'form-group col-md-12',
+                ],
+            ],
+            [
+                'name' => 'bio',
+                'label' => trans('Short Bio (500 words)'),
+                'type' => 'textarea',
+                'attributes'=>[
+                    'maxlength'=>500,
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-12',
@@ -1006,6 +907,17 @@ class MemberCrudController extends BaseCrudController
         $request = $this->crud->validateRequest();
 
         $request->request->set('status',1);
+
+        if($request->request->get('is_other_country') == '0')
+        {
+            $request->request->set('current_country_id',NULL);
+            
+        }else{
+            $request->request->set('current_province_id',NULL);
+            $request->request->set('current_district_id',NULL);
+            $request->request->set('current_local_level_id',NULL);
+
+        }
 
         $request = $request->except(['_token','http_referrer','save_action']);
         // dd($request,$this->crud->getStrippedSaveRequest());

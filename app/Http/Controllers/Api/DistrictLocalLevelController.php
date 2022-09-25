@@ -21,7 +21,7 @@ class DistrictLocalLevelController extends Controller
 
         // if a district has been selected, only show localevel from that district
         if (data_get($form, $value)) {
-            $options = $options->where('district_id', $form[$value])->where('is_tmpp_applicable',true);
+            $options = $options->where('district_id', $form[$value]);
         }
 
         if ($search_term) {
