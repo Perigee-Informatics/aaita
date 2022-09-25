@@ -225,8 +225,6 @@
             gender_id: $('#gender_id').val(),
             country_status: $('#country_status').val(),
             age_group:$('#age_group').val(),
-            channel:$('#channel').val(),
-            membership_type:$('#membership_type').val(),
             expertise:$('#expertise').val(),
             page_number : query_string,
 
@@ -247,12 +245,6 @@
         }
         if($('#age_group').val()){
             $('.age_group_filter').removeClass('times-hidden').addClass('times-show');
-        }
-        if($('#channel').val()){
-            $('.channel_filter').removeClass('times-hidden').addClass('times-show');
-        }
-        if($('#membership_type').val()){
-            $('.membership_type_filter').removeClass('times-hidden').addClass('times-show');
         }
         // if($('#expertise_name').val()){
         //     $('.expertise_name_filter').removeClass('times-hidden').addClass('times-show');

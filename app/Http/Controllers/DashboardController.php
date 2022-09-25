@@ -36,11 +36,11 @@ class DashboardController extends Controller
         $data['genders'] = MstGender::orderBy('id')->get();
 
         $sql ="with expertise_data as (
-            select expertise->>'name' as expertise_name,channel_wiw,status
+            select expertise->>'name' as expertise_name,status
             from(
-                    select channel_wiw,json_array_elements(expertise)::json as expertise,status from members)a
+                    select json_array_elements(expertise)::json as expertise,status from members)a
             )
-            select ed.* from expertise_data ed where expertise_name is not null and channel_wiw = true and status=3";
+            select ed.* from expertise_data ed where expertise_name is not null and status=3";
 
         $results = DB::select($sql);
 
@@ -281,32 +281,15 @@ class DashboardController extends Controller
             $members = $members->whereIn('id',$member_ids);
         }
 
-        
-        if($request->channel != '')
-        {
-            if($request->channel == 'wiw'){
-                $members = $members->where('channel_wiw',true);
-            }else if($request->channel == 'wsfn'){
-                $members =$members->where('channel_wsfn',true);
-            }else if($request->channel == 'foreign'){
-                $members =$members->where('channel_foreign',true);
-            }else{
-                $members = $members;
-            }
-        }
-        if($request->membership_type != '')
-        {
-            $members = $members->where('membership_type',$request->membership_type);
-        }
         if($request->expertise != '')
         {
             $expertise = implode("','%",$request->expertise);
 
             // dd($expertise);
             $sql ="with expertise_data as (
-                select id,expertise->>'name' as expertise_name,channel_wiw
-                from( select id,channel_wiw,json_array_elements(expertise)::json as expertise from members)a)
-                select ed.* from expertise_data ed where expertise_name is not null and channel_wiw = true
+                select id,expertise->>'name' as expertise_name
+                from( select id,json_array_elements(expertise)::json as expertise from members)a)
+                select ed.* from expertise_data ed where expertise_name is not null
                 and expertise_name iLike  ANY(ARRAY['%$expertise'])";
 
             $results = collect(DB::select($sql));
@@ -324,14 +307,9 @@ class DashboardController extends Controller
         {
             $json_data = [
                 'current_organization' => json_decode($member->current_organization),
-                'past_organization' => json_decode($member->past_organization),
-                'doctorate_degree' => json_decode($member->doctorate_degree),
-                'masters_degree' => json_decode($member->masters_degree),
-                'bachelors_degree' => json_decode($member->bachelors_degree),
-                'awards' => json_decode($member->awards),
+                'highest_degree' => json_decode($member->doctorate_degree),
+                'ait_study_details' => json_decode($member->ait_study_details),
                 'expertise' => json_decode($member->expertise),
-                'affiliation' => json_decode($member->affiliation),
-                'awards' => json_decode($member->awards),
             ];
     
             // $photo_encoded = "";
@@ -377,14 +355,9 @@ class DashboardController extends Controller
         $member = Member::find($id);
         $json_data = [
             'current_organization' => json_decode($member->current_organization),
-            'past_organization' => json_decode($member->past_organization),
-            'doctorate_degree' => json_decode($member->doctorate_degree),
-            'masters_degree' => json_decode($member->masters_degree),
-            'bachelors_degree' => json_decode($member->bachelors_degree),
-            'awards' => json_decode($member->awards),
+            'highest_degree' => json_decode($member->highest_degree),
+            'ait_study_details' => json_decode($member->ait_study_details),
             'expertise' => json_decode($member->expertise),
-            'affiliation' => json_decode($member->affiliation),
-            'awards' => json_decode($member->awards),
         ];
         $data['basic'] = $member;
         $data['json_data'] = $json_data;

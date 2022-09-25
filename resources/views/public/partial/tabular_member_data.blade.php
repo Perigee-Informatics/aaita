@@ -22,13 +22,7 @@
                     $rowId = 'member-'.$key;
                     $basic = $member['basic'];
                     $json = $member['json_data'];
-                    $member_full_name = $basic->first_name.' '.$basic->middle_name.' '.$basic->last_name;
-
-                    if($basic->channel_wiw){$channel = 'WIW';}
-                    if($basic->channel_wsfn){$channel = 'WSFN';}
-                    if($basic->channel_foreign){$channel = 'Foreign';}
-
-                    $m_type = ($basic->membership_type == 'friends_of_wsfn') ? 'Friends Of WSFN' : 'Life';
+                    $member_full_name = $basic->full_name;
                 @endphp
 
                 <tr>
