@@ -23,12 +23,16 @@ class Member extends BaseModel
 
     public static $status = [1=>'Applied',2=>'Under Review',3=>'Approved'];
     protected $guarded = ['id'];
-    protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','first_name','middle_name','last_name','photo_path',
+    protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','full_name','photo_path',
                         'is_other_country','country_id','province_id','district_id','current_organization','past_organization',
                         'doctorate_degree','masters_degree','bachelors_degree','awards','expertise','affiliation',
-                        'mailing_address','phone','email','international_publication','national_publication','status'];
+                        'mailing_address','phone','email','international_publication','national_publication','status','document_path'];
     // protected $hidden = [];
     // protected $dates = [];
+
+    protected $casts = [
+        'document_path' => 'array'
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -118,6 +122,23 @@ class Member extends BaseModel
         }
         // $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
     }
+
+
+
+    //upload document 
+    public function setDocumentPathAttribute($value)
+    {
+        $attribute_name = "document_path";
+        $disk = "uploads";
+
+        $member_id = (isset(request()->id) ? request()->id : 0);
+        $path  = 'Members_Document/###member_ID###/';
+        $destination_path = str_replace("###member_ID###", $member_id, $path);
+
+        $this->uploadMultipleFilesToDisk($value, $attribute_name, $disk, $destination_path);   
+
+    }
+
     public static function boot()
     {
         parent::boot();

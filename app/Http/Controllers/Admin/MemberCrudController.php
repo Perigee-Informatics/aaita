@@ -992,11 +992,9 @@ class MemberCrudController extends BaseCrudController
             [   // Upload
                 'name' => 'document_path',
                 'label' => trans('Upload a proof for your student affiliation/graduation from AIT'),
-                'type' => 'image',
+                'type' => 'upload_multiple',
                 'upload' => true,
                 'disk' => 'uploads',
-                'crop'=>true, 
-                'aspect_ratio'=>1,
                 'wrapper' => [
                     'class' => 'form-group col-md-12',
                 ],
