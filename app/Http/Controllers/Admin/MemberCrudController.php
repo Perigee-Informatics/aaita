@@ -283,7 +283,7 @@ class MemberCrudController extends BaseCrudController
                 'label'   => '<center>Highest Degree</center>',
                 'type'  => 'education_custom_table',
                 'columns' => [
-                    'degree_name'=> 'Degree Name',
+                    'degree_name'=> 'Academic Level',
                     'others_degree' => 'Others (If any)',
                     'subject_or_research_title' => 'Subject/Research Title',
                     'university_or_institution' => 'Name of University/Institution',

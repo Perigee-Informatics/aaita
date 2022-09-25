@@ -46,7 +46,6 @@
 					];
 				@endphp
 			<tr>
-                <th style="width:20px; background-color:rgb(128, 186, 243);">S.N.</th>
 				@foreach($columns as $tableColumnKey => $tableColumnLabel)
 				<th style="{{ 'width:'.$cols[$tableColumnKey].'px; background-color:rgb(128, 186, 243);'}}">{{ $tableColumnLabel }}</th>
 				@endforeach
