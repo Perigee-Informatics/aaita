@@ -26,7 +26,7 @@ class Member extends BaseModel
     protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','first_name','middle_name','last_name','photo_path',
                         'is_other_country','country_id','province_id','district_id','current_organization','past_organization',
                         'doctorate_degree','masters_degree','bachelors_degree','awards','expertise','affiliation',
-                        'mailing_address','phone','email','link_to_google_scholar','international_publication','national_publication','status'];
+                        'mailing_address','phone','email','international_publication','national_publication','status'];
     // protected $hidden = [];
     // protected $dates = [];
 

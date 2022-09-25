@@ -173,9 +173,8 @@ class MemberCrudController extends BaseCrudController
                 'disk' => 'uploads',
             ],
             [
-                'name'=>'first_name',
-                'type'=>'model_function',
-                'function_name'=>'fullName',
+                'name'=>'full_name',
+                'type'=>'text',
                 'label'=>'Full Name'
             ],
 
@@ -194,11 +193,11 @@ class MemberCrudController extends BaseCrudController
                 'label'=>'D.O.B (B.S/A.D)'
             ],
 
-            [
-                'name'=>'nrn_number',
-                'type'=>'text',
-                'label'=>trans('NRN Number'),
-            ],
+            // [
+            //     'name'=>'nrn_number',
+            //     'type'=>'text',
+            //     'label'=>trans('NRN Number'),
+            // ],
             // [
             //     'name'=>'channel_wiw',
             //     'label'=>trans('Is WIW ?'),
@@ -335,11 +334,11 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('E-mail'),
                 'type' => 'text',
             ],
-            [
-                'name' => 'link_to_google_scholar',
-                'label' => trans('Link to Google Scholar'),
-                'type' => 'url',
-            ],
+            // [
+            //     'name' => 'link_to_google_scholar',
+            //     'label' => trans('Link to Google Scholar'),
+            //     'type' => 'url',
+            // ],
 
         ];
 
@@ -380,7 +379,7 @@ class MemberCrudController extends BaseCrudController
                 'model'=>MstGender::class,
                 'label' => trans('Gender'),
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-4',
                 ],
                 'attributes'=>[
                     'required' => 'required',
@@ -390,7 +389,7 @@ class MemberCrudController extends BaseCrudController
             [
                 'name' => 'dob_bs',
                 'type' => 'nepali_date',
-                'label' => trans('common.date_bs'),
+                'label' => trans('D.O.B(B.S)'),
                 'attributes'=>[
                     'id'=>'date_bs',
                     'relatedId'=>'dob_ad',
@@ -399,33 +398,33 @@ class MemberCrudController extends BaseCrudController
 
                 ],
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-4',
                 ],
             ],
             [
                 'name' => 'dob_ad',
                 'type' => 'date',
-                'label' => trans('common.date_ad'),
+                'label' => trans('D.O.B(A.D)'),
                 'attributes'=>[
                     'id'=>'dob_ad',
                     'required'=>'required'
                 ],
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-4',
                 ],
             ],
 
-            [
-                'name'=>'nrn_number',
-                'type'=>'text',
-                'label'=>trans('NRN Number'),
-                'wrapper' => [
-                    'class' => 'form-group col-md-3',
-                ],
-            ],
+            // [
+            //     'name'=>'nrn_number',
+            //     'type'=>'text',
+            //     'label'=>trans('NRN Number'),
+            //     'wrapper' => [
+            //         'class' => 'form-group col-md-3',
+            //     ],
+            // ],
 
             [
-                'name' => 'first_name',
+                'name' => 'full_name',
                 'label' => trans('First Name'),
                 'type' => 'text',
                 'attributes'=>[
@@ -434,34 +433,47 @@ class MemberCrudController extends BaseCrudController
                     'max-length'=>200,
                 ],
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-6',
                 ],
             ],
+            // [
+            //     'name' => 'first_name',
+            //     'label' => trans('First Name'),
+            //     'type' => 'text',
+            //     'attributes'=>[
+            //         'id' => 'name-en',
+            //         'required' => 'required',
+            //         'max-length'=>200,
+            //     ],
+            //     'wrapper' => [
+            //         'class' => 'form-group col-md-3',
+            //     ],
+            // ],
 
-            [
-                'name' => 'middle_name',
-                'label' => trans('Middle Name'),
-                'type' => 'text',
-                'attributes'=>[
-                    'max-length'=>200,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-3',
-                ],
-            ],
+            // [
+            //     'name' => 'middle_name',
+            //     'label' => trans('Middle Name'),
+            //     'type' => 'text',
+            //     'attributes'=>[
+            //         'max-length'=>200,
+            //     ],
+            //     'wrapper' => [
+            //         'class' => 'form-group col-md-3',
+            //     ],
+            // ],
 
-            [
-                'name' => 'last_name',
-                'label' => trans('Last Name'),
-                'type' => 'text',
-                'attributes'=>[
-                    'required' => 'required',
-                    'max-length'=>200,
-                ],
-                'wrapper' => [
-                    'class' => 'form-group col-md-3',
-                ],
-            ],
+            // [
+            //     'name' => 'last_name',
+            //     'label' => trans('Last Name'),
+            //     'type' => 'text',
+            //     'attributes'=>[
+            //         'required' => 'required',
+            //         'max-length'=>200,
+            //     ],
+            //     'wrapper' => [
+            //         'class' => 'form-group col-md-3',
+            //     ],
+            // ],
             [   // Upload
                 'name' => 'photo_path',
                 'label' => trans('Photo'),
@@ -471,7 +483,7 @@ class MemberCrudController extends BaseCrudController
                 'crop'=>true, 
                 'aspect_ratio'=>1,
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-4',
                 ],
             ],
             [
@@ -919,11 +931,18 @@ class MemberCrudController extends BaseCrudController
             ],
 
             [
+                'name'=>'custom_html_2',
+                'fake'=>true,
+                'type'=>'custom_html',
+                'value'=>'</br>'
+            ],
+
+            [
                 'name'=>'national_publication',
                 'type'=>'number',
                 'label'=>'No. of National Publications',
                 'wrapper'=>[
-                    'class'=>'col-md-6'
+                    'class'=>'form-group col-md-6'
                 ],
                 'default'=>0
             ],
@@ -932,7 +951,7 @@ class MemberCrudController extends BaseCrudController
                 'type'=>'number',
                 'label'=>'No. of International Publications',
                 'wrapper'=>[
-                    'class'=>'col-md-6'
+                    'class'=>'form-group col-md-6'
                 ],
                 'default'=>0
                 
@@ -970,17 +989,29 @@ class MemberCrudController extends BaseCrudController
                     'class' => 'form-group col-md-12',
                 ],
             ],
-            [
-                'name' => 'link_to_google_scholar',
-                'label' => trans('Link to Google Scholar'),
-                'type' => 'url',
-                'attributes'=>[
-                    'max-lenght'=>100,
-                ],
+            [   // Upload
+                'name' => 'document_path',
+                'label' => trans('Upload a proof for your student affiliation/graduation from AIT'),
+                'type' => 'image',
+                'upload' => true,
+                'disk' => 'uploads',
+                'crop'=>true, 
+                'aspect_ratio'=>1,
                 'wrapper' => [
                     'class' => 'form-group col-md-12',
                 ],
             ],
+            // [
+            //     'name' => 'link_to_google_scholar',
+            //     'label' => trans('Link to Google Scholar'),
+            //     'type' => 'url',
+            //     'attributes'=>[
+            //         'max-lenght'=>100,
+            //     ],
+            //     'wrapper' => [
+            //         'class' => 'form-group col-md-12',
+            //     ],
+            // ],
             $status
          
 

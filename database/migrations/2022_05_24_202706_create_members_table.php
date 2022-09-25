@@ -21,20 +21,13 @@ class CreateMembersTable extends Migration
             $table->date('dob_ad');
             $table->string('dob_bs',10);
             $table->string('nrn_number')->nullable();
-            $table->string('first_name',200);
-            $table->string('middle_name',200)->nullable();
-            $table->string('last_name',200);
+            $table->string('full_name',200);
             $table->string('photo_path',500)->nullable();
             $table->boolean('is_other_country')->default(false);
             $table->unsignedSmallInteger('country_id')->nullable();
             $table->unsignedSmallInteger('province_id')->nullable();
             $table->unsignedSmallInteger('district_id')->nullable();
 
-            $table->boolean('channel_wsfn')->default(false);
-            $table->boolean('channel_wiw')->default(false);
-            $table->boolean('channel_foreign')->default(false);
-
-            $table->string('membership_type')->nullable();
             $table->unsignedSmallInteger('international_publication')->default(0);
             $table->unsignedSmallInteger('national_publication')->default(0);
 
@@ -50,6 +43,8 @@ class CreateMembersTable extends Migration
             $table->string('phone',200)->nullable();
             $table->string('email',500)->nullable();
             $table->string('link_to_google_scholar',1000)->nullable();
+            $table->string('document_path',500)->nullable();
+
 
             $table->unsignedSmallInteger('status')->default(1);
 
