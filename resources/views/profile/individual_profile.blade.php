@@ -86,7 +86,7 @@
 <body class="main">
     @foreach($data as $member)
         <div class="header">
-            Who is Who in Science, Technology and Innovation of Nepal
+            Who is Who in AITAAN
         </div>
         <div class="hr-line">
             <hr/>
