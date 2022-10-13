@@ -1104,13 +1104,9 @@ class MemberCrudController extends BaseCrudController
         $json_data = [
             'current_organization' => json_decode($member->current_organization),
             'past_organization' => json_decode($member->past_organization),
-            'doctorate_degree' => json_decode($member->doctorate_degree),
-            'masters_degree' => json_decode($member->masters_degree),
-            'bachelors_degree' => json_decode($member->bachelors_degree),
-            'awards' => json_decode($member->awards),
+            'highest_degree' => json_decode($member->highest_degree),
+            'ait_study_details' => json_decode($member->ait_study_details),
             'expertise' => json_decode($member->expertise),
-            'affiliation' => json_decode($member->affiliation),
-            'awards' => json_decode($member->awards),
         ];
 
         $photo_encoded = "";

@@ -307,7 +307,7 @@ class DashboardController extends Controller
         {
             $json_data = [
                 'current_organization' => json_decode($member->current_organization),
-                'highest_degree' => json_decode($member->doctorate_degree),
+                'highest_degree' => json_decode($member->highest_degree),
                 'ait_study_details' => json_decode($member->ait_study_details),
                 'expertise' => json_decode($member->expertise),
             ];

@@ -67,6 +67,10 @@
         font-size: 20px;
         padding-top: 5px;
       }
+      .link{
+        color:blue;
+        text-decoration: underline;
+      }
 
       .education li {
           padding-bottom: 10px;
@@ -91,7 +95,7 @@
             $dob = ($public_view == false) ? '; '.$member['basic']->dob_ad : ' ';
         @endphp
         <div class="profile">
-            <span class="name"><i class="fa fa-arrow-circle-right"></i>&nbsp;&nbsp;{{ $member['basic']->first_name .' '.$member['basic']->middle_name.' '. $member['basic']->last_name}}
+            <span class="name"><i class="fa fa-arrow-circle-right"></i>&nbsp;&nbsp;{{ $member['basic']->full_name}}
                 ({{ $member['basic']->genderEntity->name_en.$dob}} 
                 {{$member['basic']->district_id ?'; '.ucwords(strtolower($member['basic']->districtEntity->name_en)): ''}}
                 {{$member['basic']->is_other_country==true && $member['basic']->countryEntity ? '; '.$member['basic']->countryEntity->name_en : '; Nepal' }})
@@ -119,7 +123,7 @@
                         </tr>
                 
                         <tr>
-                            <td class="row-title">Current Affiliation:</td>
+                            <td class="row-title">Current Organization:</td>
                             <td class="row-data" colspan="2">{{ $member['json_data']['current_organization'][0]->position}}, 
                                 {{$member['json_data']['current_organization'][0]->organization}}, {{$member['json_data']['current_organization'][0]->address}}</td>
                         </tr>
@@ -128,37 +132,26 @@
                             <td class="inner-data" colspan="2">
                                 @foreach($member['json_data']['past_organization'] as $dt)
                                     @if($dt->position !='')
-                                    <li>{{ $dt->position }} <span class="bracket-text"> ( {{ $dt->organization}} )</span></li>
+                                    <li>{{ $dt->position }} <span class="bracket-text"> ( {{ $dt->organization}} ) ({{ 'From :'.$dt->from . ' - ' . 'To :'.$dt->to}})</span></li>
                                     @endif
                                 @endforeach
                             </td>
                         </tr>
                         <tr>
-                            <td class="row-title">Education:</td>
+                            <td class="row-title">Highest Degree Awarded So Far :</td>
                             <td class="inner-data education" colspan="2">
-                                @foreach($member['json_data']['doctorate_degree'] as $dt)
-                                <li>{{ $dt->degree_name }} <span class="bracket-text"> - {{ $dt->university_or_institution}}, {{$dt->country}}, {{$dt->year}}</span><br>
-                                <div class="subject"><span class="subject-title">Subject / Research Title</span> : <span class="subject-data">{{$dt->subject_or_research_title}}</span></div></li>
-                                @endforeach
-
-                                @foreach($member['json_data']['masters_degree'] as $dt)
-                                <li>{{ ($dt->others_degree)? $dt->others_degree: $dt->degree_name }} <span class="bracket-text"> - {{ $dt->university_or_institution}}, {{$dt->country}}, {{$dt->year}}</span><br>
-                                <div class="subject"><span class="subject-title">Subject / Research Title</span> : <span class="subject-data">{{$dt->subject_or_research_title}}</span></div></li>
-                                @endforeach
-
-                                @foreach($member['json_data']['bachelors_degree'] as $dt)
-                                <li>{{ ($dt->others_degree) ? $dt->others_degree: $dt->degree_name }} <span class="bracket-text"> - {{ $dt->university_or_institution}}, {{$dt->country}}, {{$dt->year}}</span><br>
+                                @foreach($member['json_data']['highest_degree'] as $dt)
+                                <li>{{ App\Models\Member::$degree_options[$dt->degree_name] }} <span class="bracket-text"> - {{ $dt->university_or_institution}}, {{$dt->country}}, {{$dt->year}}</span><br>
                                 <div class="subject"><span class="subject-title">Subject / Research Title</span> : <span class="subject-data">{{$dt->subject_or_research_title}}</span></div></li>
                                 @endforeach
                             </td>
                         </tr>
                         <tr>
-                            <td class="row-title">Awards:</td>
+                            <td class="row-title">Lastest AIT study details :</td>
                             <td class="inner-data" colspan="2">
-                                @foreach($member['json_data']['awards'] as $award)
-                                    @if($award->award_name !='')
-                                        <li>{{ $award->award_name }} <span class="bracket-text"> ( {{ $award->awarded_by}}, {{ $award->awarded_year}} )</span></li>
-                                    @endif
+                                @foreach($member['json_data']['ait_study_details'] as $dt)
+                                <li>{{ App\Models\Member::$degree_options[$dt->academic_level] }} <span class="bracket-text"> - {{$dt->name_of_degree}} - <br> {{ App\Models\Member::$school_options[$dt->name_of_school]}}, {{$dt->graduation_year}}</span><br>
+                                    <div class="subject"><span class="subject-title">Field of Study / Division / Department / Program</span> : <span class="subject-data">{{$dt->field_of_study}}</span></div></li>
                                 @endforeach
                             </td>
                         </tr>
@@ -172,16 +165,7 @@
                                 @endforeach
                             </td>
                         </tr>
-                        <tr>
-                            <td class="row-title">Professional Affiliation:</td>
-                            <td class="inner-data" colspan="2">
-                                @foreach($member['json_data']['affiliation'] as $affiliation)
-                                    @if($affiliation->name !='')
-                                        <li>{{ $affiliation->name }}</li>
-                                    @endif
-                                @endforeach
-                            </td>
-                        </tr>
+                       
                         <tr>
                             <td class="row-title">Correspondence:</td>
                             <td class="row-data contact" colspan="2">
@@ -197,9 +181,12 @@
                                     <div>
                                     <span class="subject-head"> E-mail : </span><span class="subject-data">{{$member['basic']->email}}</span>
                                     </div>
-                                @endif
+                                 @endif
                                 <div>
-                                <span class="subject-head"> Link to Google Scholar : </span><span class="subject-data">{{$member['basic']->link_to_google_scholar}}</span>
+                                <span class="subject-head"> Google Scholar Link : </span><span class="subject-data link"><a target="_blank" href="{{$member['basic']->link_to_google_scholar}}">{{$member['basic']->link_to_google_scholar}}</a></span>
+                                </div>
+                                <div>
+                                <span class="subject-head"> Linkedin Link : </span><span class="subject-data link"><a target="_blank" href="{{$member['basic']->linkedin_profile_link}}">{{$member['basic']->linkedin_profile_link}}</a></span>
                                 </div>
                             </td>
                         </tr>
