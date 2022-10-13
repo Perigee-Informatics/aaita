@@ -12,6 +12,7 @@ class Member extends BaseModel
     use CrudTrait;
 
     static $degree_options=[1=>'PhD/ DE/ Doctorate',2=>'Post Graduate/ Masters',3=>'Undergraduate',4=>'Other Diploma/ Professional Courses'];
+    static $school_options=[1=>'School of Engineering and Technology',2=>'School of Environment, Resources and Development',3=>'School of Management',4=>'Other'];
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ class Member extends BaseModel
     protected $guarded = ['id'];
     protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','full_name','photo_path','current_country_id','city_of_residence','ward',
                         'is_other_country','country_id','province_id','district_id','local_level_id','current_province_id','current_district_id','current_local_level_id',
-                        'current_organization','past_organization','expertise',
+                        'current_organization','past_organization','expertise','linkedin_profile_link','link_to_google_scholar',
                         'mailing_address','phone','email','status','document_path','highest_degree','ait_study_details','bio'];
     // protected $hidden = [];
     // protected $dates = [];

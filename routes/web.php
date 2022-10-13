@@ -22,16 +22,16 @@ use App\Http\Controllers\Api\DistrictLocalLevelController;
 |
 */
 
-// Route::get('/', function(){
-//     return view('errors.503');
-// });
+Route::get('/', function(){
+    return redirect(url('public/apply-for-membership/create'));
+});
 // Route::get('/admin', function(){
 //     return view('errors.503');
 // });
 // Route::get('/admin/login', function(){
 //     return view('errors.503');
 // });
-Route::get('/', [DashboardController::class,'index']);
+// Route::get('/', [DashboardController::class,'index']);
 Route::get('/home', [DashboardController::class,'index']);
 Route::get('/update-province-id', [DashboardController::class,'updateProvinceId']);
 Route::get('/home/get-page-content', [DashboardController::class,'getPageContent']);

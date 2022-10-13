@@ -38,6 +38,8 @@ class MemberCrudController extends BaseCrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/member');
         CRUD::setEntityNameStrings('member', 'members');
         $this->setFilters();
+
+        $this->data['script_js'] = $this->scriptJs();
         if(in_array($this->crud->getActionMethod(),['edit','index'])){
             $this->crud->print_profile_btn = true;
         }
@@ -51,6 +53,30 @@ class MemberCrudController extends BaseCrudController
                 $this->crud->setOperationSetting('inlineErrors', false);
             });
         }
+    }
+
+    public function scriptJs()
+    {
+        return "
+            $(document).ready(function(){
+                $('.name_of_other_school').hide();
+                showHideField($('#name_of_school').val());
+
+
+                $('#name_of_school').on('change',function(){
+                    showHideField($('#name_of_school').val());
+
+                });
+
+                function showHideField(val){
+                    if(val == 4){
+                        $('.name_of_other_school').show();
+                    }else{
+                        $('.name_of_other_school').hide();
+                    }
+                }
+            });
+        ";
     }
 
     /**
@@ -424,6 +450,7 @@ class MemberCrudController extends BaseCrudController
                     'max-length'=>500,
                     'required' => 'required',
                 ],
+                'prefix'=>'<i class="la la-at"></i>',
                 'wrapper' => [
                     'class' => 'form-group col-md-7',
                 ],
@@ -436,6 +463,7 @@ class MemberCrudController extends BaseCrudController
                     'max-length'=>200,
                     'required' => 'required',
                 ],
+                'prefix'=>'<i class="la la-mobile"></i>',
                 'wrapper' => [
                     'class' => 'form-group col-md-5',
                 ],
@@ -726,6 +754,7 @@ class MemberCrudController extends BaseCrudController
                         'type'    => 'number',
                         'label'   => trans('Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-3'],
+                        'suffix'=>'A.D.',
                         'required' => true
                     ],
                 ],
@@ -753,9 +782,25 @@ class MemberCrudController extends BaseCrudController
                         'required' => true
                     ],
                     [
+                        'name'    => 'name_of_school',
+                        'type'    => 'select_from_array',
+                        'label'   => trans('School'),
+                        'wrapper' => ['class' => 'form-group col-md-6'],
+                        'options'=>Member::$school_options,
+                        'attributes'=>['id'=>'name_of_school'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'name_of_other_school',
+                        'type'    => 'text',
+                        'label'   => 'School Name <sub class="text-danger">(Please specify if other school !!)</sub>',
+                        'wrapper' => ['class' => 'form-group col-md-6 name_of_other_school'],
+                        'attributes'=>['id'=>'name_of_other_school'],
+                    ],
+                    [
                         'name'    => 'field_of_study',
                         'type'    => 'text',
-                        'label'   => trans('Field of Study'),
+                        'label'   => trans('Field of Study / Division / Department / Program'),
                         'wrapper' => ['class' => 'form-group col-md-8'],
                         'required' => true
                     ],
@@ -764,6 +809,7 @@ class MemberCrudController extends BaseCrudController
                         'type'    => 'number',
                         'label'   => trans('Graduation Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
+                        'suffix'=>'A.D.',
                         'required' => true
                     ],
                 ],
@@ -807,27 +853,84 @@ class MemberCrudController extends BaseCrudController
                         'type'    => 'text',
                         'label'   => trans('From Year (A.D.)'),
                         'wrapper' => ['class' => 'form-group col-md-4'],
+                        'suffix'=>'A.D.',
                         'required' => true
                     ],
                     [
-                        'name'    => 'to',
-                        'type'    => 'text',
-                        'label'   => trans('To Year (A.D.)'),
-                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'name'    => 'is_founder',
+                        'type'    => 'checkbox',
+                        'label'   => '<b>Self-employed (Co-Founder)</b>',
+                        'wrapper' => ['class' => 'form-group col-md-4 mt-4 pt-2 pl-5'],
                         'required' => true,
-                        'default'=>'Present'
                     ],
                 ],
                 'min_rows' => 1,
                 'max_rows' => 1,
             ],
+            [
+                'name'  => 'past_organization',
+                'label'   => trans('Past Organization'),
+                'type'  => 'repeatable_with_action',
+                'fields' => [
+                    [
+                        'name'    => 'position',
+                        'type'    => 'text',
+                        'label'   => trans('Position'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'organization',
+                        'type'    => 'text',
+                        'label'   => trans('Organization'),
+                        'wrapper' => ['class' => 'form-group col-md-8'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'address',
+                        'type'    => 'text',
+                        'label'   => trans('Address'),
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'from',
+                        'type'    => 'number',
+                        'label'   => trans('From Year'),
+                        'suffix'=>'A.D.',
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                    [
+                        'name'    => 'to',
+                        'type'    => 'number',
+                        'label'   => trans('To Year'),
+                        'suffix'=>'A.D.',
+                        'wrapper' => ['class' => 'form-group col-md-4'],
+                        'required' => true
+                    ],
+                ],
+                'min_rows' => 1,
+            ],
+            [
+                'name'=>'custom_div_row_open',
+                'fake'=>true,
+                'type'=>'plain_html',
+                'value'=>'<div class="form-row" style="width:100%">'
+            ],
+            [
+                'name'=>'custom_div_col_1_open',
+                'fake'=>true,
+                'type'=>'plain_html',
+                'value'=>'<div class="col-md-6">'
+            ],
            
             [
                 'name'  => 'expertise',
-                'label'   => trans('Expertise'),
+                'label'   => trans('Expertise <sub class="text-danger">(Please specify one expertise in one box !!)</sub>'),
                 'type'  => 'repeatable_with_action',
                 'wrapper'=>[
-                    'class'=>'col-md-6'
+                    'class'=>'col-md-12'
                 ],
                 'fields' => [
                     [
@@ -841,12 +944,18 @@ class MemberCrudController extends BaseCrudController
                 'min_rows' => 3,
             ],
             [
-                'name'=>'custom_html_2',
+                'name'=>'custom_div_col_1_close',
                 'fake'=>true,
-                'type'=>'custom_html',
-                'value'=>'</br>'
+                'type'=>'plain_html',
+                'value'=>'</div>'
             ],
-
+            [
+                'name'=>'custom_div_col_2_open',
+                'fake'=>true,
+                'type'=>'plain_html',
+                'value'=>'<div class="col-md-6">'
+            ],
+          
            
             [   // Upload
                 'name' => 'document_path',
@@ -855,18 +964,50 @@ class MemberCrudController extends BaseCrudController
                 'upload' => true,
                 'disk' => 'uploads',
                 'wrapper' => [
-                    'class' => 'form-group col-md-12',
+                    'class' => 'form-group col-md-12 pl-5 pt-5',
                 ],
             ],
             [
+                'name'=>'custom_div_col_2_close',
+                'fake'=>true,
+                'type'=>'plain_html',
+                'value'=>'</div>'
+            ],
+            [
+                'name'=>'custom_div_row_close',
+                'fake'=>true,
+                'type'=>'plain_html',
+                'value'=>'</div>'
+            ],
+            [
+                'name'=>'custom_html_2',
+                'fake'=>true,
+                'type'=>'custom_html',
+                'value'=>'</br>'
+            ],
+
+            [
                 'name' => 'link_to_google_scholar',
-                'label' => trans('Link to Google Scholar'),
+                'label' => trans('Google Scholar Link'),
                 'type' => 'url',
                 'attributes'=>[
                     'max-length'=>100,
                 ],
+                'prefix'=>'<i class="la la-globe"></i>',
                 'wrapper' => [
-                    'class' => 'form-group col-md-12',
+                    'class' => 'form-group col-md-6',
+                ],
+            ],
+            [
+                'name' => 'linkedin_profile_link',
+                'label' => trans('LinkedIn Profile Link'),
+                'type' => 'url',
+                'attributes'=>[
+                    'max-length'=>100,
+                ],
+                'prefix'=>'<i class="la la-globe"></i>',
+                'wrapper' => [
+                    'class' => 'form-group col-md-6',
                 ],
             ],
             [
