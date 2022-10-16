@@ -40,11 +40,15 @@ class MemberCrudController extends BaseCrudController
         $this->setFilters();
 
         $this->data['script_js'] = $this->scriptJs();
+        $this->data['style_css'] = $this->styleCss();
         if(in_array($this->crud->getActionMethod(),['edit','index'])){
             $this->crud->print_profile_btn = true;
         }
+        $this->crud->set('show.setFromDb',false);
 
         if(Str::contains(url()->current(),'public')){
+        $this->data['set_confirm_submit'] = true;
+
             $this->crud->denyAccess('update');
             $this->crud->operation(['create','update'], function () {
                 $this->crud->loadDefaultOperationSettingsFromConfig();
@@ -52,7 +56,23 @@ class MemberCrudController extends BaseCrudController
                 $this->crud->setOperationSetting('groupedErrors', false);
                 $this->crud->setOperationSetting('inlineErrors', false);
             });
+
+            $this->crud->operation(['preview','show'], function () {
+                $this->crud->removeButton('delete');
+                $this->crud->denyAccess('delete');
+                $this->crud->denyAccess('list');
+            });
         }
+    }
+
+    public function styleCss()
+    {
+        return "
+        .form-group.required label:not(:empty)::after {
+            content: ' *';
+            color: #ff0000 !important;
+        }
+        ";
     }
 
     public function scriptJs()
@@ -75,6 +95,14 @@ class MemberCrudController extends BaseCrudController
                         $('.name_of_other_school').hide();
                     }
                 }
+
+                $('form').find('input, select, textarea,number,time').each(function () {
+                    if ($(this).attr('required')) {
+                        $(this).parent().addClass('required');
+                        $(this).parent().parent().addClass('required');
+                    }
+                    
+                });
             });
         ";
     }
@@ -407,7 +435,6 @@ class MemberCrudController extends BaseCrudController
             ];
         }
 
-        // CRUD::setFromDb(); // fields
         $arr=[
             [
                 'name' => 'legend1',
@@ -1040,6 +1067,271 @@ class MemberCrudController extends BaseCrudController
         $this->setupCreateOperation();
     }
 
+    protected function setupShowOperation()
+    {
+        $columns=[
+            [   // Upload
+                'name' => 'photo_path',
+                'label' => trans('Photo'),
+                'type' => 'image',
+                'upload' => true,
+                'disk' => 'uploads',
+            ],
+            [
+                'name'=>'full_name',
+                'type'=>'text',
+                'label'=>'Full Name'
+            ],
+
+            [
+                'name' => 'gender_id',
+                'type' => 'select',
+                'entity'=>'genderEntity',
+                'attribute' => 'name_en',
+                'model'=>MstGender::class,
+                'label' => trans('Gender'),
+            ],
+            [
+                'name' => 'email',
+                'label' => trans('E-mail'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'phone',
+                'label' => trans('Phone/Cell'),
+                'type' => 'text',
+            ],
+            [
+                'name'=>'dob_ad',
+                'type'=>'model_function',
+                'function_name'=>'dob',
+                'label'=>'D.O.B (B.S/A.D)'
+            ],
+            [
+                'name' => 'mailing_address',
+                'label' => trans('Current Postal Address'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'permanent_address',
+                'type' => 'custom_html',
+                'value' => '<legend>Permanent Address</legend><hr class="m-0">',
+            ],
+
+            [
+                'name'=>'province_id',
+                'type'=>'select',
+                'label'=>trans('Province'),
+                'entity'=>'provinceEntity',
+                'model'=>MstFedProvince::class,
+                'attribute'=>'name_en',
+            ],
+            [
+                'name'=>'district_id',
+                'label'=>trans('District'),
+                'type'=>'select',
+                'model'=>MstFedDistrict::class,
+                'entity'=>'districtEntity',
+                'attribute'=>'name_en',
+            ],
+            [
+                'name'=>'local_level_id',
+                'label'=>trans('Local Level'),
+                'type'=>'select',
+                'model'=>MstFedLocalLevel::class,
+                'entity'=>'localLevelEntity',
+                'attribute'=>'name_en',
+         
+            ],
+            [
+                'name' => 'ward',
+                'label' => trans('Ward'),
+                'type' => 'number',
+            ],
+      
+            [
+                'name' => 'Residential Address',
+                'type' => 'custom_html',
+                'value' => '<legend>Residential Address</legend><hr class="m-0">',
+            ],
+            [ //Toggle
+                'name' => 'is_other_country',
+                'label' => trans('Is Current Country Nepal ?'),
+                'type' => 'boolean',
+                'options'     => [ 
+                    false => trans('YES'),
+                    true => trans('NO'),
+                ],
+            ],
+         
+            [
+                'name'=>'current_province_id',
+                'type'=>'select',
+                'label'=>trans('Province'),
+                'entity'=>'currentProvinceEntity',
+                'model'=>MstFedProvince::class,
+                'attribute'=>'name_en',
+            ],
+            [
+                'name'=>'current_district_id',
+                'label'=>trans('District'),
+                'type'=>'select',
+                'model'=>MstFedDistrict::class,
+                'entity'=>'currentDistrictEntity',
+                'attribute'=>'name_en',
+            ],
+            [
+                'name'=>'current_local_level_id',
+                'label'=>trans('Local Level'),
+                'type'=>'select',
+                'model'=>MstFedLocalLevel::class,
+                'entity'=>'currentLocalLevelEntity',
+                'attribute'=>'name_en',
+            ],
+            [
+                'name' => 'current_ward',
+                'label' => trans('Ward'),
+                'type' => 'number',
+            ],
+            [
+                'name'=>'current_country_id',
+                'type'=>'select',
+                'label'=>trans("Current Country of Residence"),
+                'entity'=>'currentCountryEntity',
+                'model'=>Country::class,
+                'attribute'=>'name_en',
+            ],
+            [
+                'name' => 'city_of_residence',
+                'label' => trans('City of Residence'),
+                'type' => 'text',
+            ],
+            [
+                'name' => 'Academic Details',
+                'type' => 'custom_html',
+                'value' => '<legend>Academic Details</legend><hr class="m-0">',
+            ],
+            [
+                'name'  => 'highest_degree',
+                'label'   => trans('Highest Degree Awarded So Far'),
+                'type'  => 'education_custom_table',
+                'columns' => [
+                    'degree_name'=> 'Academic Level',
+                    'others_degree' => 'Others (If any)',
+                    'subject_or_research_title' => 'Subject/Research Title',
+                    'university_or_institution' => 'Name of University/Institution',
+                    'country' => 'Country',
+                    'year' => 'Year(A.D.)',
+                ]
+                   
+            ],
+            [
+                'name'  => 'ait_study_details',
+                'label'   => trans('Latest AIT Study Details'),
+                'type'  => 'ait_study_details',
+                'columns' => [
+                    'academic_level'=> 'Academic Level',
+                    'name_of_degree' => 'Name of Degree',
+                    'name_of_school' => 'Name of School',
+                    'name_of_other_school' => 'Name of Other School(If any)',
+                    'field_of_study' => 'Field of Study / Division / Department / Program',
+                    'graduation_year' => 'Graduation Year(A.D.)',
+                ]
+            ],
+            [
+                'name' => 'Profession and Expertise',
+                'type' => 'custom_html',
+                'value' => '<legend>Profession and Expertise</legend><hr class="m-0">',
+            ],
+
+            [
+                'name'  => 'current_organization',
+                'label'   => 'Current Organization',
+                'type'  => 'custom_table',
+                'columns' => [
+                    'position'=> 'Position',
+                    'organization' => 'Organization',
+                    'address' => 'Address',
+                    'from' => 'From Year (A.D.)',
+                    'is_founder'=>'Self-employed (Co-Founder)'
+                ]
+            ],
+            [
+                'name'  => 'past_organization',
+                'label'   => 'Past Organization',
+                'type'  => 'custom_table',
+                'columns' => [
+                    'position'=> 'Position',
+                    'organization' => 'Organization',
+                    'address' => 'Address',
+                    'from' => 'From Year (A.D.)',
+                    'to' => 'To Year (A.D.)',
+                ]
+            ],
+            [
+                'name'  => 'highest_degree',
+                'label'   => '<center>Highest Degree</center>',
+                'type'  => 'education_custom_table',
+                'columns' => [
+                    'degree_name'=> 'Academic Level',
+                    'others_degree' => 'Others (If any)',
+                    'subject_or_research_title' => 'Subject/Research Title',
+                    'university_or_institution' => 'Name of University/Institution',
+                    'country' => 'Address',
+                    'year' => 'Year',
+                ]
+            ],
+            [
+                'name'  => 'ait_study_details',
+                'label'   => '<center>AIT Study Details</center>',
+                'type'  => 'ait_custom_table',
+                'columns' => [
+                    'academic_level'=> 'Academic level',
+                    'name_of_degree' => 'Others (If any)',
+                    'field_of_study' => 'Field of Study',
+                    'graduation_year' => 'Graduation Year',
+                ]
+            ],
+           
+            [
+                'name'  => 'expertise',
+                'label'   => 'Expertise',
+                'type'  => 'awards_custom_table',
+                'columns' => [
+                    'name'=> 'Name',
+                ]
+            ],
+            [   // Upload
+                'name' => 'document_path',
+                'label' => trans('Upload a proof for your student affiliation/graduation from AIT'),
+                'type' => 'upload_multiple',
+                'upload' => true,
+                'disk' => 'uploads',
+                'wrapper' => [
+                    'class' => 'form-group col-md-12 pl-5 pt-5',
+                ],
+            ],
+            [
+                'name' => 'link_to_google_scholar',
+                'label' => trans('Link to Google Scholar'),
+                'type' => 'url',
+            ],
+            [
+                'name' => 'linkedin_profile_link',
+                'label' => trans('LinkedIn Profile Link'),
+                'type' => 'url',
+            ],
+            [
+                'name' => 'bio',
+                'label' => trans('Short Bio (500 words)'),
+                'type' => 'textarea',
+            ],
+        ];
+
+        $this->crud->addColumns(array_filter($columns));
+
+    }
+
     public function store()
     {
         // $this->crud->hasAccessOrFail('create');
@@ -1075,9 +1367,16 @@ class MemberCrudController extends BaseCrudController
             $this->crud->setSaveAction();
             return $this->crud->performSaveAction($item->getKey());
         }else{
-            return redirect('/');
+            return redirect('/public/apply-for-membership/'.$item->id.'/show');
         }
 
+    }
+
+    public function submitConfirm($id)
+    {
+        Member::whereId($id)->update(['is_agreed_and_submitted'=>true]);
+
+        return response()->json(['status'=>'true']);
     }
 
 

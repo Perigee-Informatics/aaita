@@ -2,7 +2,7 @@
 	// $value = data_get($entry, $column['name']);
 
     $levels = [
-        'highest'=>data_get($entry,'highest_degree'),
+        'ait_study_details'=>data_get($entry,'ait_study_details'),
 ];
 
 
@@ -14,7 +14,7 @@
 	$columns = $column['columns'];
 
 	// if this attribute isn't using attribute casting, decode it
-	    $values = [json_decode($levels['highest'])];
+	    $values = [json_decode($levels['ait_study_details'])];
 @endphp
 
 <style>
@@ -43,12 +43,12 @@
 		<thead>
 				@php
 					$cols = [
-                        'degree_name'=> 100,
-                        'others_degree' => 100,
-                        'subject_or_research_title' => 200,
-                        'university_or_institution' =>200,
-                        'country' =>100,
-                        'year' => 80,
+                        'academic_level'=> 100,
+                        'name_of_degree' => 100,
+                        'name_of_school' => 100,
+                        'name_of_other_school' => 100,
+                        'field_of_study' =>200,
+                        'graduation_year' => 80,
 					];
 				@endphp
 			<tr>
@@ -69,8 +69,11 @@
                             @elseif( is_object($tableRow) && property_exists($tableRow, $tableColumnKey) )
 							@php
 							switch($tableColumnKey){
-								case 'degree_name':
+								case 'academic_level':
 									$column_value = App\Models\Member::$degree_options[($tableRow->$tableColumnKey)];
+								break;
+								case 'name_of_school':
+									$column_value = App\Models\Member::$school_options[($tableRow->$tableColumnKey)];
 								break;
 								default:
 									$column_value = wordwrap($tableRow->$tableColumnKey,60, "<br/>", false);

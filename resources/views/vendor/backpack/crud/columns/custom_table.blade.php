@@ -43,6 +43,9 @@
 						'position' => 100,
 						'organization'=> 200,
 						'address' => 100,
+						'from'=>100,
+						'to'=>100,
+						'is_founder'=>100,
 					];
 				@endphp
 			<tr>
@@ -61,7 +64,17 @@
 							@if( is_array($tableRow) && isset($tableRow[$tableColumnKey]) )
 								{{ $tableRow[$tableColumnKey] }}
 							@elseif( is_object($tableRow) && property_exists($tableRow, $tableColumnKey) )
-								{!! nl2br($tableRow->$tableColumnKey) !!}
+							@php
+							switch($tableColumnKey){
+								case 'is_founder':
+									$column_value =$tableRow->$tableColumnKey==1?'YES' : 'NO' ;
+								break;
+								default:
+									$column_value = wordwrap($tableRow->$tableColumnKey,60, "<br/>", false);
+								break;
+								}
+							@endphp	
+								{!! nl2br($column_value) !!}
 
 							@endif
 

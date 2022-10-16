@@ -46,7 +46,6 @@ class BaseCrudController extends CrudController
             $this->request = $request;
             $this->setupDefaults();
             $this->setup();
-            $this->crud->denyAccess('show');
             $this->setupConfigurationForCurrentOperation();
             return $next($request);
         });

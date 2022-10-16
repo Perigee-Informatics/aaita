@@ -28,8 +28,8 @@ class Member extends BaseModel
     protected $guarded = ['id'];
     protected $fillable = ['gender_id','dob_ad','dob_bs','nrn_number','full_name','photo_path','current_country_id','city_of_residence','ward',
                         'is_other_country','country_id','province_id','district_id','local_level_id','current_province_id','current_district_id','current_local_level_id',
-                        'current_organization','past_organization','expertise','linkedin_profile_link','link_to_google_scholar',
-                        'mailing_address','phone','email','status','document_path','highest_degree','ait_study_details','bio'];
+                        'current_organization','past_organization','expertise','linkedin_profile_link','link_to_google_scholar','current_ward',
+                        'mailing_address','phone','email','status','document_path','highest_degree','ait_study_details','bio','is_agreed_and_submitted'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -49,15 +49,15 @@ class Member extends BaseModel
     }
     public function currentProvinceEntity()
     {
-        return $this->belongsTo(Country::class,'current_province_id','id');
+        return $this->belongsTo(MstFedProvince::class,'current_province_id','id');
     }
     public function currentDistrictEntity()
     {
-        return $this->belongsTo(Country::class,'current_district_id','id');
+        return $this->belongsTo(MstFedDistrict::class,'current_district_id','id');
     }
     public function currentLocalLevelEntity()
     {
-        return $this->belongsTo(Country::class,'current_local_level_id','id');
+        return $this->belongsTo(MstFedLocalLevel::class,'current_local_level_id','id');
     }
     public function currentCountryEntity()
     {

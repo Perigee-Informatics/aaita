@@ -50,9 +50,10 @@
 	    <div class="card no-padding no-border">
 			<table class="table table-striped mb-0">
 		        <tbody>
+				
 		        @foreach ($crud->columns() as $column)
 		            <tr>
-		                <td>
+		                <td style="width:350px;">
 		                    <strong>{!! $column['label'] !!}:</strong>
 		                </td>
                         <td>
@@ -82,6 +83,27 @@
 				@endif
 		        </tbody>
 			</table>
+
+			<hr>
+			<div class="terms p-2 pl-4">
+				<span class="font-weight-bold" style="color:red;">*** Note : </span>
+				<span style="color:red; font-weight:bold; font-size:13px;">By clicking “I Agree” below you are indicating that the information you provided above is correct, and agree for the consent to publish this information into AAITAN (WHO is WHO) souvenir.</span>
+				<div class="checkbox" style="color: blue;">
+					  <input type="checkbox" id="terms_check_box" onclick="enableDisableButton()">
+						<label class="form-check-label font-weight-normal" for="terms_check_box"><b>&nbsp; I Agree. </b></label>
+				</div>
+			</div>
+
+			@if(isset($set_confirm_submit) && $set_confirm_submit)
+			<center><div class="py-3">
+				<a class="btn btn-success text-white" role="button" id="submit_confirm_button" onclick="submitConfirm()">
+					<span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+					<span >Submit</span>
+				</a>
+			</div>
+		</center>
+	
+			@endif
 	    </div><!-- /.box-body -->
 	  </div><!-- /.box -->
 
@@ -98,4 +120,37 @@
 @section('after_scripts')
 	<script src="{{ asset('packages/backpack/crud/js/crud.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
 	<script src="{{ asset('packages/backpack/crud/js/show.js').'?v='.config('backpack.base.cachebusting_string') }}"></script>
+
+<script>
+	enableDisableButton();
+
+	function enableDisableButton()
+	{
+		if (document.getElementById('terms_check_box').checked){
+			$('#submit_confirm_button').removeClass('disabled');
+        } else {
+			$('#submit_confirm_button').addClass('disabled');
+        }
+	}
+
+	function submitConfirm()
+	{
+		$.get('/public/apply-for-membership/'+{{$entry->getKey()}}+'/confirm',function(response){
+			if(response.status){
+				swal({
+					title: "Submisson Successful",
+					text: "Form successfully submitted !!",
+					icon: "success",
+					timer: 3000,
+					buttons: false,
+				});
+
+				setTimeout(() => {
+					window.location.href='/public/apply-for-membership/create';	
+				}, 3500);
+			}
+		})
+	}
+</script>
 @endsection
+

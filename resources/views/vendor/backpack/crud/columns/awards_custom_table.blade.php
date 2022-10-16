@@ -40,9 +40,6 @@
 		<thead>
 				@php
 					$cols = [
-						'award_name' => 200,
-						'awarded_by'=> 150,
-						'awarded_year' => 50,
                         'name'=>300
 					];
 				@endphp
@@ -61,7 +58,7 @@
 					<tr>   
 						<td>{{$loop->iteration}}</td>
 						@foreach($columns as $tableColumnKey => $tableColumnLabel)
-							<td style="overflow-x: scroll; overflow-y:hidden;">
+							<td >
 								@if( is_array($tableRow) && isset($tableRow[$tableColumnKey]) )
 									{{ $tableRow[$tableColumnKey] }}
 								@elseif( is_object($tableRow) && property_exists($tableRow, $tableColumnKey) )

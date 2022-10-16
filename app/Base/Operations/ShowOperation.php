@@ -78,6 +78,10 @@ trait ShowOperation
         $this->data['crud'] = $this->crud;
         $this->data['title'] = $this->crud->getTitle() ?? trans('backpack::crud.preview').' '.$this->crud->entity_name;
 
+       if($this->data['entry']->is_agreed_and_submitted){
+        return view('errors.401');
+       }
+
         // set columns from db
         if ($setFromDb) {
             $this->crud->setFromDb();

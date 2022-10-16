@@ -21,8 +21,8 @@
   <!-- <p>Data does not exist</p> -->
   @else
   <style>
-  {{$style_css}}
-  </style>
+  {{ $style_css }}
+ </style>
   @endif
 </head>
 
