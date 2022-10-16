@@ -83,26 +83,29 @@
 				@endif
 		        </tbody>
 			</table>
+			
+			@if(Str::contains(url()->current(),'public'))
 
-			<hr>
-			<div class="terms p-2 pl-4">
-				<span class="font-weight-bold" style="color:red;">*** Note : </span>
-				<span style="color:red; font-weight:bold; font-size:13px;">By clicking “I Agree” below you are indicating that the information you provided above is correct, and agree for the consent to publish this information into AAITAN (WHO is WHO) souvenir.</span>
-				<div class="checkbox" style="color: blue;">
-					  <input type="checkbox" id="terms_check_box" onclick="enableDisableButton()">
-						<label class="form-check-label font-weight-normal" for="terms_check_box"><b>&nbsp; I Agree. </b></label>
+				<hr>
+				<div class="terms p-2 pl-4">
+					<span class="font-weight-bold" style="color:red;">*** Note : </span>
+					<span style="color:red; font-weight:bold; font-size:13px;">By clicking “I Agree” below you are indicating that the information you provided above is correct, and agree for the consent to publish this information into AAITAN (WHO is WHO) souvenir.</span>
+					<div class="checkbox" style="color: blue;">
+						<input type="checkbox" id="terms_check_box" onclick="enableDisableButton()">
+							<label class="form-check-label font-weight-normal" for="terms_check_box"><b>&nbsp; I Agree. </b></label>
+					</div>
 				</div>
-			</div>
 
-			@if(isset($set_confirm_submit) && $set_confirm_submit)
-			<center><div class="py-3">
-				<a class="btn btn-success text-white" role="button" id="submit_confirm_button" onclick="submitConfirm()">
-					<span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
-					<span >Submit</span>
-				</a>
-			</div>
-		</center>
-	
+				@if(isset($set_confirm_submit) && $set_confirm_submit)
+				<center><div class="py-3">
+					<a class="btn btn-success text-white" role="button" id="submit_confirm_button" onclick="submitConfirm()">
+						<span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+						<span >Submit</span>
+					</a>
+				</div>
+				</center>
+		
+				@endif
 			@endif
 	    </div><!-- /.box-body -->
 	  </div><!-- /.box -->

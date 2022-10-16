@@ -2,6 +2,7 @@
 
 namespace App\Base\Operations;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 
 trait ShowOperation
@@ -77,10 +78,12 @@ trait ShowOperation
         $this->data['entry'] = $this->crud->getEntry($id);
         $this->data['crud'] = $this->crud;
         $this->data['title'] = $this->crud->getTitle() ?? trans('backpack::crud.preview').' '.$this->crud->entity_name;
-
-       if($this->data['entry']->is_agreed_and_submitted){
-        return view('errors.401');
-       }
+        
+        if(Str::contains(url()->current(),'public')){
+            if($this->data['entry']->is_agreed_and_submitted){
+                return view('errors.401');
+            }
+        }
 
         // set columns from db
         if ($setFromDb) {
