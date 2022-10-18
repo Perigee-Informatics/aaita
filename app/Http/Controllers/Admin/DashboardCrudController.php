@@ -189,9 +189,10 @@ class DashboardCrudController extends BaseCrudController
         $members =  DB::table('members as m')
                         ->join('mst_fed_district as mfd', 'm.district_id','mfd.id')
                         ->join('mst_fed_province as mfp','m.province_id','mfp.id')
+                        ->join('mst_fed_local_level as mfll','m.local_level_id','mfll.id')
                         ->join('mst_gender as mg','m.gender_id','mg.id')
                         ->select('m.id','mfp.name_en as province','mfd.name_en as district','m.full_name','mg.name_en as gender',
-                        'mfd.gps_lat as lat','mfd.gps_long as long')
+                        'mfll.gps_lat as lat','mfll.gps_long as long')
                         ->whereRaw($province_clause)
                         ->whereRaw($district_clause)
                         ->whereRaw($local_level_clause)

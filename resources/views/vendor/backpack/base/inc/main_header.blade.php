@@ -2,6 +2,11 @@
 $date = convert_bs_from_ad();
 
 $current_url = url()->current();
+if(backpack_user()){
+  $link = '/admin/dashboard';
+}else{
+  $link = '';
+}
 @endphp
 
 <header class="{{ config('backpack.base.header_class') }}">
@@ -23,7 +28,7 @@ $current_url = url()->current();
       <span class="navbar-toggler-icon"></span>
     </button>
     {{-- <span class="btn font-weight-bolder font-2xl pl-3" style="cursor: pointer; color:black;" onclick="openNav()"><i class="la la-bars"></i></span> --}}
-    <a class="ml-2 text-dark text-decoration-none font-xl" href="{{ url(config('backpack.base.home_link')) }}" title="{{ config('backpack.base.project_name') }}">
+    <a class="ml-2 text-dark text-decoration-none font-xl" href="{{$link}}" title="{{ config('backpack.base.project_name') }}">
       {!! config('backpack.base.project_logo')  !!}
       <span style="font-weight:550; color: white !important; position:relative; top: -2px !important">
         {{config('backpack.base.project_name')}}<br/>
