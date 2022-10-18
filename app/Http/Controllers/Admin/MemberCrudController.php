@@ -51,8 +51,7 @@ class MemberCrudController extends BaseCrudController
         if(Str::contains(url()->current(),'public')){
         $this->data['set_confirm_submit'] = true;
 
-            $this->crud->denyAccess('update');
-            $this->crud->operation(['create','update'], function () {
+            $this->crud->operation(['create'], function () {
                 $this->crud->loadDefaultOperationSettingsFromConfig();
                 $this->crud->setupDefaultSaveActions();
                 $this->crud->setOperationSetting('groupedErrors', false);
@@ -60,8 +59,11 @@ class MemberCrudController extends BaseCrudController
             });
 
             $this->crud->operation(['preview','show'], function () {
-                $this->crud->removeButton('delete');
+                $this->crud->removeButton('edit');
+                $this->crud->denyAccess('update');
+                
                 $this->crud->denyAccess('delete');
+                $this->crud->removeButton('delete');
                 $this->crud->denyAccess('list');
             });
         }
@@ -244,7 +246,7 @@ class MemberCrudController extends BaseCrudController
 
     protected function setupListOperation()
     {
-        $this->crud->addButtonFromView('top', 'excelImport', 'excelImport', 'end');
+        // $this->crud->addButtonFromView('top', 'excelImport', 'excelImport', 'end');
         
         // CRUD::setFromDb(); // columns
         $this->crud->addButtonFromView('line', 'print_profile', 'print_profile', 'beginning');
@@ -1362,6 +1364,35 @@ class MemberCrudController extends BaseCrudController
 
     }
 
+    public function editForm(Request $request){
+        $token = $request->token;
+        if($token != ''){
+            $member = Member::where('token',$token)->first();
+            $this->crud->allowAccess('update');
+            $this->setupUpdateOperation();
+            
+            $this->crud->setOperationSetting('groupedErrors', false);
+            $this->crud->setOperationSetting('inlineErrors', false);
+            $this->crud->setOperationSetting('fields', $this->crud->getUpdateFields($member->id));
+            
+
+            $this->crud->public_update = true;
+
+            $this->data['entry'] = $this->crud->getEntry($member->id);
+            $this->data['crud'] = $this->crud;
+            $this->data['update_url'] = 'public/apply-for-membership/update_form';
+           
+            $this->data['title'] = $this->crud->getTitle() ?? trans('backpack::crud.edit').' '.$this->crud->entity_name;
+
+            $this->data['id'] = $member->id;
+            // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
+            return view('vendor.backpack.crud.edit', $this->data);
+
+        }
+    }
+
+    
+
     public function store()
     {
         // $this->crud->hasAccessOrFail('create');
@@ -1380,6 +1411,10 @@ class MemberCrudController extends BaseCrudController
             $request->request->set('current_district_id',NULL);
             $request->request->set('current_local_level_id',NULL);
         }
+
+        $bytes = random_bytes(20);
+        
+        $request->request->set('token',bin2hex($bytes));
         $request = $request->except(['_token','http_referrer','save_action']);
         // dd($request,$this->crud->getStrippedSaveRequest());
         // insert item in the db
@@ -1399,6 +1434,36 @@ class MemberCrudController extends BaseCrudController
         }else{
             return redirect('/public/apply-for-membership/'.$item->id.'/show');
         }
+
+    }
+
+    public function updateForm()
+    {
+        $request = $this->crud->validateRequest();
+
+        $token = $request->request->get('token');
+        if($token != ''){
+            $member = Member::where('token',$token)->first();
+        }
+
+        $request->request->set('status',1);
+
+        if($request->request->get('is_other_country') == '0')
+        {
+            $request->request->set('current_country_id',NULL);
+            
+        }else{
+            $request->request->set('current_province_id',NULL);
+            $request->request->set('current_district_id',NULL);
+            $request->request->set('current_local_level_id',NULL);
+        }
+
+        $request = $request->except(['_token','http_referrer','save_action']);
+        
+        // update the row in the db
+        $item = $this->crud->update($member->id,$request);
+
+        return redirect('/public/apply-for-membership/'.$member->id.'/show');
 
     }
 

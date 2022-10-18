@@ -20,7 +20,6 @@ trait UpdateOperation
             'uses'      => $controller.'@edit',
             'operation' => 'update',
         ]);
-
         Route::put($segment.'/{id}', [
             'as'        => $routeName.'.update',
             'uses'      => $controller.'@update',

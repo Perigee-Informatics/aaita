@@ -27,6 +27,8 @@ Route::group([
 
     Route::crud('apply-for-membership','Admin\MemberCrudController');
     Route::post('apply-for-membership/store','Admin\MemberCrudController@store');
+    Route::post('apply-for-membership/update_form','Admin\MemberCrudController@updateForm');
+    Route::get('apply-for-membership/edit','Admin\MemberCrudController@editForm');
     Route::get('apply-for-membership/{mem_id}/confirm','Admin\MemberCrudController@submitConfirm');
 });
 

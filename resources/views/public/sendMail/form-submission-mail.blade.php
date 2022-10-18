@@ -6,8 +6,8 @@
     &nbsp; &nbsp; Once the application is reviewed and approved, the information will be published in AITAAN (WHO is WHO) souvenir.<br>
 </p>
 <br/>
-{{-- Note:  You can edit/update your information until the application is approved, by clicking the following link.<br>
-<a href="" style="color:blue;">LINK</a>  --}}
+Note:  You can edit/update your information until the application is approved, by clicking the following link.<br>
+<a href="{{ 'https://aitaan.perigee.com.np/public/apply-for-membership/edit?token='.$member['token']}}" style="color:blue; font-weight:bold; text-decoration:underline;">LINK</a> 
 <br/>
 <br/>
 

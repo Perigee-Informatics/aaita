@@ -43,14 +43,28 @@
 
 		@include('crud::inc.grouped_errors')
 
+		@if(isset($crud->public_update))
+		<form method="post"
+		  		action="{{ url($update_url) }}"
+				@if ($crud->hasUploadFields('update', $entry->getKey()))
+				enctype="multipart/form-data"
+				@endif
+		  		>
+				  {!! method_field('POST') !!}
+
+				<input type="hidden" name="token" value="{{$entry->token}}">
+		@else
+
 		  <form method="post"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"
 				@endif
 		  		>
+				  {!! method_field('PUT') !!}
+
+		@endif		
 		  {!! csrf_field() !!}
-		  {!! method_field('PUT') !!}
 
 		  	@if ($crud->model->translationEnabled())
 		    <div class="mb-2 text-right">
@@ -74,7 +88,11 @@
 		      	@include('crud::form_content', ['fields' => $crud->fields(), 'action' => 'edit'])
 		      @endif
 
-            @include('crud::inc.form_save_buttons')
+			@if(backpack_user())
+	          @include('crud::inc.form_save_buttons')
+			@else
+				<button type ="submit" class="btn btn-lg btn-success mb-5 px-5"><i class="la la-floppy-o"></i> Update</button>
+			@endif
 		  </form>
 	</div>
 </div>
