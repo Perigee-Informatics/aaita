@@ -1368,6 +1368,8 @@ class MemberCrudController extends BaseCrudController
         $token = $request->token;
         if($token != ''){
             $member = Member::where('token',$token)->first();
+
+            if($member){
             $this->crud->allowAccess('update');
             $this->setupUpdateOperation();
             
@@ -1387,6 +1389,9 @@ class MemberCrudController extends BaseCrudController
             $this->data['id'] = $member->id;
             // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
             return view('vendor.backpack.crud.edit', $this->data);
+            }else{
+                return view('errors.404');
+            }
 
         }
     }
