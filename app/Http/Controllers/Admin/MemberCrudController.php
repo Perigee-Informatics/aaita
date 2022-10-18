@@ -81,12 +81,40 @@ class MemberCrudController extends BaseCrudController
             $(document).ready(function(){
                 $('.name_of_other_school').hide();
                 showHideField($('#name_of_school').val());
+                checkRequiredCondition();
 
 
                 $('#name_of_school').on('change',function(){
                     showHideField($('#name_of_school').val());
-
                 });
+
+                $('.is_other_country').change(function(){
+                    checkRequiredCondition();
+                });
+
+               
+                //enable required fields validation on country status toggle
+                function checkRequiredCondition()
+                {
+                    if($('#is_other_country_1').is(':checked')){
+                        $('.required_0').addClass('required');
+                        $('.required_0').find('select').attr('required','required');
+                    }else{
+                        $('.required_0').removeClass('required');
+                        $('.required_0').find('select').removeAttr('required','required');
+                    };
+
+                    if($('#is_other_country_2').is(':checked')){
+                            $('.required_1').addClass('required');
+                            $('.required_1').find('select').attr('required','required');
+                        }else{
+                            $('.required_1').removeClass('required');
+                            $('.required_1').find('select').removeAttr('required','required');
+
+                    };
+                }
+
+
 
                 function showHideField(val){
                     if(val == 4){
@@ -636,7 +664,7 @@ class MemberCrudController extends BaseCrudController
                 ],
                 'inline' => true,
                 'wrapper' => [
-                    'class' => 'form-group col-md-12',
+                    'class' => 'form-group col-md-12 is_other_country',
                 ],
                 'attributes' =>[
                     'id' => 'is_other_country',
@@ -656,7 +684,7 @@ class MemberCrudController extends BaseCrudController
                 'model'=>MstFedProvince::class,
                 'attribute'=>'name_en',
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-3 required_0',
                 ],
             ],
             [
@@ -673,7 +701,7 @@ class MemberCrudController extends BaseCrudController
                 'include_all_form_fields'=>true,
                 'method'=>'POST',
                 'wrapper' => [
-                    'class' => 'form-group col-md-3',
+                    'class' => 'form-group col-md-3 required_0',
                 ],
 
             ],
@@ -691,7 +719,7 @@ class MemberCrudController extends BaseCrudController
                 'include_all_form_fields'=>true,
                 'method'=>'POST',
                 'wrapper' => [
-                    'class' => 'form-group col-md-4',
+                    'class' => 'form-group col-md-4 required_0',
                 ],
             ],
             [
@@ -703,7 +731,7 @@ class MemberCrudController extends BaseCrudController
                 ],
                 'default'=>0,
                 'wrapper' => [
-                    'class' => 'form-group col-md-2',
+                    'class' => 'form-group col-md-2 required_0',
                 ],
             ],
             [
@@ -714,7 +742,7 @@ class MemberCrudController extends BaseCrudController
                 'model'=>Country::class,
                 'attribute'=>'name_en',
                 'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6',
+                    'class' => 'form-group col-md-6 required_1',
                 ],
                 'default'=>153
             ],
@@ -726,7 +754,7 @@ class MemberCrudController extends BaseCrudController
                     'max-length'=>500,
                 ],
                 'wrapper' => [
-                    'class' => 'form-group col-md-6',
+                    'class' => 'form-group col-md-6 required_1',
                 ],
             ],
             [
@@ -1349,9 +1377,7 @@ class MemberCrudController extends BaseCrudController
             $request->request->set('current_province_id',NULL);
             $request->request->set('current_district_id',NULL);
             $request->request->set('current_local_level_id',NULL);
-
         }
-
         $request = $request->except(['_token','http_referrer','save_action']);
         // dd($request,$this->crud->getStrippedSaveRequest());
         // insert item in the db
