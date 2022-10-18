@@ -13,9 +13,11 @@ use App\Models\MstFedDistrict;
 use App\Models\MstFedProvince;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Base\BaseCrudController;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\MemberRequest;
 use App\Models\MstFedLocalLevel;
+use Illuminate\Support\Facades\DB;
+use Prologue\Alerts\Facades\Alert;
+use App\Http\Requests\MemberRequest;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -1067,7 +1069,7 @@ class MemberCrudController extends BaseCrudController
             ],
             [
                 'name' => 'bio',
-                'label' => trans('Short Bio (500 words)'),
+                'label' => trans('Short Bio (500 characters)'),
                 'type' => 'textarea',
                 'attributes'=>[
                     'maxlength'=>500,
@@ -1351,7 +1353,7 @@ class MemberCrudController extends BaseCrudController
             ],
             [
                 'name' => 'bio',
-                'label' => trans('Short Bio (500 words)'),
+                'label' => trans('Short Bio'),
                 'type' => 'textarea',
             ],
         ];
@@ -1383,6 +1385,8 @@ class MemberCrudController extends BaseCrudController
         // insert item in the db
         $item = $this->crud->create($request);
         $this->data['entry'] = $this->crud->entry = $item;
+
+        $this->sendFormSubmissionEmail($item);
 
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();
@@ -1500,5 +1504,33 @@ class MemberCrudController extends BaseCrudController
         $datas = DB::table('email_details')->get();
 
         return view('admin.email_details',compact('datas'));
+    }
+
+    public function sendFormSubmissionEmail($member)
+    {
+        $member_email = $member->email;
+        $member_fullname = $member->full_name;
+
+        if(Str::contains($member_email,';')){
+            $explode = explode(';',$member_email);
+            $member_email= $explode[0];
+        }
+        $status = true;
+        $msg= '';
+
+        Mail::send('public.sendMail.form-submission-mail',compact('member'), function($message)use($member_email) {
+            $message->to($member_email)
+            ->from(env('MAIL_USERNAME'))
+            ->subject('AITAAN -(WHO is WHO) -- Form submission successful');
+        });
+
+        if(Mail::failures() ) {
+            $status=false;
+            $msg = "Some error occured. Please contact administrator !! <br />";
+         
+         } 
+
+        return response()->json(['status'=>$status,'msg'=>$msg]);
+
     }
 }
