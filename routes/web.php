@@ -32,7 +32,9 @@ Route::get('/', function(){
 //     return view('errors.503');
 // });
 // Route::get('/', [DashboardController::class,'index']);
-Route::get('/home', [DashboardController::class,'index']);
+Route::get('/home', function(){
+    return redirect(backpack_url('dashboard'));
+});
 Route::get('/update-province-id', [DashboardController::class,'updateProvinceId']);
 Route::get('/home/get-page-content', [DashboardController::class,'getPageContent']);
 Route::get('/admin', [AdminController::class,'redirect']);
