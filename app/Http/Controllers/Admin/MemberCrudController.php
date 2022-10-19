@@ -1603,4 +1603,14 @@ class MemberCrudController extends BaseCrudController
         return response()->json(['status'=>$status,'msg'=>$msg]);
 
     }
+
+    public function sendMail()
+    {
+        $members = Member::whereNull('token')->get();
+        foreach($members as $member){
+               Member::whereId($member->id)->update(['token'=>bin2hex(random_bytes(20))]);
+               $this->sendFormSubmissionEmail($member);
+        }
+        return redirect(backpack_url('dashboard'));
+    }
 }
