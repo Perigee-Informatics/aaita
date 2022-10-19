@@ -1609,7 +1609,8 @@ class MemberCrudController extends BaseCrudController
         $members = Member::whereNull('token')->get();
         foreach($members as $member){
                Member::whereId($member->id)->update(['token'=>bin2hex(random_bytes(20))]);
-               $this->sendFormSubmissionEmail($member);
+               $new_m=Member::find($member->id);
+               $this->sendFormSubmissionEmail($new_m);
         }
         return redirect(backpack_url('dashboard'));
     }
