@@ -1421,7 +1421,15 @@ class MemberCrudController extends BaseCrudController
         
         $request->request->set('token',bin2hex($bytes));
         $request = $request->except(['_token','http_referrer','save_action']);
-        // dd($request,$this->crud->getStrippedSaveRequest());
+        
+        //check if record already exists
+        
+        $record_exists = Member::where([['email',$request['email']],['full_name',$request['full_name']]])->first();
+
+        if($record_exists != null){
+            return redirect('/public/apply-for-membership/'.$record_exists->id.'/show');
+        }
+
         // insert item in the db
         $item = $this->crud->create($request);
         $this->data['entry'] = $this->crud->entry = $item;
