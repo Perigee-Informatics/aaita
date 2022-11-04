@@ -520,7 +520,6 @@ class MemberCrudController extends BaseCrudController
                 'type' => 'text',
                 'attributes'=>[
                     'max-length'=>200,
-                    'required' => 'required',
                 ],
                 'prefix'=>'<i class="la la-mobile"></i>',
                 'wrapper' => [
@@ -537,7 +536,6 @@ class MemberCrudController extends BaseCrudController
                     'id'=>'date_bs',
                     'relatedId'=>'dob_ad',
                     'maxlength' =>10,
-                    'required'=>'required'
 
                 ],
                 'wrapper' => [
@@ -550,7 +548,6 @@ class MemberCrudController extends BaseCrudController
                 'label' => trans('D.O.B  (A.D.)'),
                 'attributes'=>[
                     'id'=>'dob_ad',
-                    'required'=>'required'
                 ],
                 'wrapper' => [
                     'class' => 'form-group col-md-4',
@@ -1407,6 +1404,10 @@ class MemberCrudController extends BaseCrudController
 
         $request->request->set('status',1);
 
+        if($request->get('dob_ad')==""){
+            $request->request->set('dob_ad',NULL);
+        }
+
         if($request->request->get('is_other_country') == '0')
         {
             $request->request->set('current_country_id',NULL);
@@ -1423,7 +1424,6 @@ class MemberCrudController extends BaseCrudController
         $request = $request->except(['_token','http_referrer','save_action']);
         
         //check if record already exists
-        
         $record_exists = Member::where([['email',$request['email']],['full_name',$request['full_name']]])->first();
 
         if($record_exists != null){
@@ -1459,6 +1459,10 @@ class MemberCrudController extends BaseCrudController
             $member = Member::where('token',$token)->first();
         }
 
+        if($request->get('dob_ad')==""){
+            $request->request->set('dob_ad',NULL);
+        }
+        
         $request->request->set('status',1);
 
         if($request->request->get('is_other_country') == '0')
