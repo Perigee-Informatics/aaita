@@ -99,9 +99,9 @@
             <div class="table-data">
                 <table width="100%">
                     <colgroup>
-                        <col style="width: 30%;" />
-                        <col style="width: 60%;" />
-                        <col style="width: 10%;" />
+                        <col style="width: 25%;" />
+                        <col style="width: 70%;" />
+                        <col style="width: 5%;" />
                     </colgroup>
                         <tr>
                             <td class="row-title">Category :</td>
@@ -120,8 +120,10 @@
                 
                         <tr>
                             <td class="row-title">Current Organization :</td>
-                            <td class="row-data" colspan="2">&nbsp; {{ $member['json_data']['current_organization'][0]->position}}, 
-                                {{$member['json_data']['current_organization'][0]->organization}},<br/>&nbsp;&nbsp;{{$member['json_data']['current_organization'][0]->address}}</td>
+                            <td class="row-data" colspan="2">
+                                &ensp;&ensp;<span class="subject-title">Position :</span> {{ $member['json_data']['current_organization'][0]->position}}<br/> 
+                                &ensp;&ensp;<span class="subject-title">Organization :</span> {{$member['json_data']['current_organization'][0]->organization}}<br/>
+                                &ensp;&ensp;<span class="subject-title">Address :</span> {{$member['json_data']['current_organization'][0]->address}}</td>
                         </tr>
                         <tr>
                             <td class="row-title">Past Experiences :</td>
@@ -134,7 +136,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="row-title">Highest Degree Awarded :</td>
+                            <td class="row-title">Highest Degree :</td>
                             <td class="inner-data education" colspan="2">
                                 @foreach($member['json_data']['highest_degree'] as $dt)
                                 <li><span class="subject-title">Academic Level :</span> {{ App\Models\Member::$degree_options[$dt->degree_name] }} <br/>
@@ -145,7 +147,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="row-title">Lastest AIT study details :</td>
+                            <td class="row-title">AIT study details :</td>
                             <td class="inner-data" colspan="2">
                                 @foreach($member['json_data']['ait_study_details'] as $dt)
                                 @php
