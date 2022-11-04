@@ -325,7 +325,7 @@ class MemberCrudController extends BaseCrudController
                 'name'=>'country_id',
                 'type'=>'select',
                 'label'=>trans("Country"),
-                'entity'=>'countryEntity',
+                'entity'=>'currentCountryEntity',
                 'model'=>Country::class,
                 'attribute'=>'name_en',
             ],
