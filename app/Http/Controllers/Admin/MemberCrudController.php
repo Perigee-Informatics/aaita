@@ -1462,7 +1462,7 @@ class MemberCrudController extends BaseCrudController
         if($request->get('dob_ad')==""){
             $request->request->set('dob_ad',NULL);
         }
-        
+
         $request->request->set('status',1);
 
         if($request->request->get('is_other_country') == '0')
@@ -1534,11 +1534,11 @@ class MemberCrudController extends BaseCrudController
 
         // Format the image SRC:  data:{mime};base64,{data};
         // dd($photo_encoded);
-        $pdf = Pdf::loadView('profile.individual_profile',compact('data','public_view') );
-        return $pdf->stream();
+        // $pdf = Pdf::loadView('profile.individual_profile',compact('data','public_view') );
+        // return $pdf->stream();
 
-        // $html = view('profile.individual_profile', compact('data','public_view'))->render();
-        // PdfPrint::printPortrait($html, $member->first_name.' '.$member->middle_name.' '.$member->last_name."_Profile.pdf"); 
+        $html = view('profile.individual_profile_jsreport', compact('data','public_view'))->render();
+        PdfPrint::printPortrait($html, $member->full_name."_Profile.pdf"); 
     }
 
     public function printAllProfiles()
@@ -1549,13 +1549,9 @@ class MemberCrudController extends BaseCrudController
             $json_data = [
                 'current_organization' => json_decode($member->current_organization),
                 'past_organization' => json_decode($member->past_organization),
-                'doctorate_degree' => json_decode($member->doctorate_degree),
-                'masters_degree' => json_decode($member->masters_degree),
-                'bachelors_degree' => json_decode($member->bachelors_degree),
-                'awards' => json_decode($member->awards),
+                'highest_degree' => json_decode($member->highest_degree),
+                'ait_study_details' => json_decode($member->ait_study_details),
                 'expertise' => json_decode($member->expertise),
-                'affiliation' => json_decode($member->affiliation),
-                'awards' => json_decode($member->awards),
             ];
     
             $photo_encoded = "";
@@ -1573,11 +1569,11 @@ class MemberCrudController extends BaseCrudController
         }
         $public_view= false;
 
-        $pdf = Pdf::loadView('profile.individual_profile',compact('data','public_view') );
-        return $pdf->stream();
+        // $pdf = Pdf::loadView('profile.individual_profile',compact('data','public_view') );
+        // return $pdf->stream();
 
-        // $html = view('profile.individual_profile', compact('data','public_view'))->render();
-        // PdfPrint::printPortrait($html,"Who_is_who_Profile.pdf"); 
+        $html = view('profile.individual_profile_jsreport', compact('data','public_view'))->render();
+        PdfPrint::printPortrait($html,"Who_is_who_Profile.pdf"); 
     }
 
 
