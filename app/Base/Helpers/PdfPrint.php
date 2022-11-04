@@ -11,7 +11,7 @@ class PdfPrint
         return self::print("HJ_UbfC4P", $content, $recipe, "none", $file_name);
     }
     public static function printPortrait($content, $file_name, $recipe = "chrome-pdf"){
-        return self::print("HJe27fgQIw", $content, $recipe, "none", $file_name);
+        return self::print("HygFKhIjEP", $content, $recipe, "none", $file_name);
     }
     private static function loadJsReportConfig(){
         self::$jsreport_url= Config('report.jsreport_url');
@@ -24,6 +24,7 @@ class PdfPrint
     public static function print($shortid, $content, $recipe, $engine, $file_name){
         self::loadJsReportConfig();
         $post_fields['template']['shortid']=$shortid;
+        $post_fields['template']['recipe']=$recipe;
         $post_fields['template']['content']=$content;
         $post_fields=\json_encode($post_fields);
         
