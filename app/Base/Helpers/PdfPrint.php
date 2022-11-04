@@ -43,7 +43,6 @@ class PdfPrint
         CURLOPT_POSTFIELDS =>$post_fields,
         CURLOPT_HTTPHEADER => array(
             "Content-Type: application/json",
-            "Cookie: render-complete=true"
         ),
         ));
 
