@@ -10,7 +10,7 @@ class PdfPrint
     public static function printLandscape($content, $file_name, $recipe = "chrome-pdf"){
         return self::print("HJ_UbfC4P", $content, $recipe, "none", $file_name);
     }
-    public static function printPortrait($content, $file_name, $recipe = "chrome"){
+    public static function printPortrait($content, $file_name, $recipe = "chrome-pdf"){
         return self::print("HJe27fgQIw", $content, $recipe, "none", $file_name);
     }
     private static function loadJsReportConfig(){
