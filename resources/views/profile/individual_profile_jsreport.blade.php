@@ -93,7 +93,7 @@
         @endphp
         <div class="profile">
             <span class="name"><i class="fa fa-arrow-circle-right"></i>&nbsp;&nbsp;{{ $member['basic']->full_name}}
-                ({{ $member['basic']->genderEntity->name_en.$dob}} 
+                ({{ $member['basic']->genderEntity->name_en}} 
                 {{$member['basic']->district_id ?'; '.ucwords(strtolower($member['basic']->districtEntity->name_en)): ''}}
                 {{$member['basic']->is_other_country==true && $member['basic']->countryEntity ? '; '.$member['basic']->countryEntity->name_en : '; Nepal' }})
             </span>
