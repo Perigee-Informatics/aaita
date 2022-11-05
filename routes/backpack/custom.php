@@ -65,7 +65,9 @@ Route::group([
     Route::crud('member', 'MemberCrudController');
     Route::post('import-member', 'MemberCrudController@importMembers')->name('importMemberExcel');
     Route::get('member/{member_id}/print-profile', 'MemberCrudController@printProfile');
+    Route::get('member/{member_id}/export-profile', 'MemberCrudController@exportProfile');
     Route::get('member/profiles/print-all', 'MemberCrudController@printAllProfiles');
+    Route::get('member/profiles/export-all', 'MemberCrudController@exportAllProfiles');
     
     Route::get('member/send-mail','MemberCrudController@sendMail');
     

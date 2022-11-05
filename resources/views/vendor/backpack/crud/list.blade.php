@@ -21,6 +21,7 @@
           <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
         @endif
         @if(isset($crud->print_profile_btn))
+        <a target="_blank" href="{{ url($crud->route.'/profiles/export-all') }}" class="btn btn-success edit-btn float-right mr-2" data-style="zoom-in"><span class="ladda-label"><i class="la la-file-excel"></i>&nbsp; Export All Profiles</span></a>
         <a target="_blank" href="{{ url($crud->route.'/profiles/print-all') }}" class="btn btn-primary print-btn float-right mr-2" data-style="zoom-in"><span class="ladda-label"><i class="la la-print"></i>&nbsp; Print All Profiles</span></a>
         @endif
     </h3>

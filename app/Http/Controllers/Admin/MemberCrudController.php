@@ -13,6 +13,7 @@ use App\Models\MstFedDistrict;
 use App\Models\MstFedProvince;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Base\BaseCrudController;
+use App\Exports\ReportExport;
 use App\Models\MstFedLocalLevel;
 use Illuminate\Support\Facades\DB;
 use Prologue\Alerts\Facades\Alert;
@@ -250,6 +251,7 @@ class MemberCrudController extends BaseCrudController
         
         // CRUD::setFromDb(); // columns
         $this->crud->addButtonFromView('line', 'print_profile', 'print_profile', 'beginning');
+        $this->crud->addButtonFromView('line', 'export_profile', 'export_profile', 'beginning');
         $cols=[
             $this->addRowNumberColumn(),
             [   // Upload
@@ -1509,36 +1511,18 @@ class MemberCrudController extends BaseCrudController
 	}
 
 
-    public function printProfile($id,$public_view = false){
+    public function printProfile($id,$public_view = false)
+    {
         $member = Member::find($id);
-
-        $json_data = [
-            'current_organization' => json_decode($member->current_organization),
-            'past_organization' => json_decode($member->past_organization),
-            'highest_degree' => json_decode($member->highest_degree),
-            'ait_study_details' => json_decode($member->ait_study_details),
-            'expertise' => json_decode($member->expertise),
-        ];
-
-        $photo_encoded = "";
-        $photo_path = public_path('storage/uploads/'.$member->photo_path);
-        // Read image path, convert to base64 encoding
-        if($member->photo_path){
-            $imageData = base64_encode(file_get_contents($photo_path));
-            $photo_encoded = 'data:'.mime_content_type($photo_path).';base64,'.$imageData;
-        }
-
-        $data['member']['basic'] = $member;
-        $data['member']['json_data'] = $json_data;
-        $data['member']['photo_encoded'] = $photo_encoded;
-
+        
+        $data = $this->getMemberData($id);
         // Format the image SRC:  data:{mime};base64,{data};
         // dd($photo_encoded);
         // $pdf = Pdf::loadView('profile.individual_profile',compact('data','public_view') );
         // return $pdf->stream();
 
         $html = view('profile.individual_profile_jsreport', compact('data','public_view'))->render();
-        PdfPrint::printPortrait($html, $member->full_name."_Profile.pdf"); 
+        PdfPrint::printPortrait($html, $member->full_name.".pdf"); 
     }
 
     public function printAllProfiles()
@@ -1574,6 +1558,50 @@ class MemberCrudController extends BaseCrudController
 
         $html = view('profile.individual_profile_jsreport', compact('data','public_view'))->render();
         PdfPrint::printPortrait($html,"Who_is_who_Profile.pdf"); 
+    }
+
+    public function exportProfile($id)
+    {
+        $member = Member::find($id);
+
+
+        $sheet =  new \App\Exports\IndividualProfileExport('reports.individual_profile_excel', $this->getMemberData($id));
+        ob_end_clean();
+        ob_start();
+        return Excel::download($sheet, $member->full_name.".xlsx");
+    }
+
+    public function exportAllProfiles()
+    {
+        return (new ReportExport('reports.individual_profile_excel'))->download('members.xlsx');
+
+    }
+
+    public function getMemberData($id)
+    {
+        $member = Member::find($id);
+
+        $json_data = [
+            'current_organization' => json_decode($member->current_organization),
+            'past_organization' => json_decode($member->past_organization),
+            'highest_degree' => json_decode($member->highest_degree),
+            'ait_study_details' => json_decode($member->ait_study_details),
+            'expertise' => json_decode($member->expertise),
+        ];
+
+        $photo_encoded = "";
+        $photo_path = public_path('storage/uploads/'.$member->photo_path);
+        // Read image path, convert to base64 encoding
+        if($member->photo_path){
+            $imageData = base64_encode(file_get_contents($photo_path));
+            $photo_encoded = 'data:'.mime_content_type($photo_path).';base64,'.$imageData;
+        }
+
+        $data['member']['basic'] = $member;
+        $data['member']['json_data'] = $json_data;
+        $data['member']['photo_encoded'] = $photo_encoded;
+
+        return $data;
     }
 
 
