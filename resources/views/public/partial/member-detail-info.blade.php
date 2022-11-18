@@ -48,21 +48,30 @@
                     <tr>
                         <th class="report-heading-second">S.N.</th>
                         <th  class="report-heading-second th_large">Academic Level</th>
-                        <th colspan="2" class="report-heading-second th_large">Name of Degree</th>
-                        <th colspan="2" class="report-heading-second th_large">Field of Study</th>
+                        <th colspan="2"  class="report-heading-second th_large">Name of Degree</th>
+                        <th  class="report-heading-second th_large">Name of School</th>
+                        <th  class="report-heading-second th_large">Field of Study</th>
                         <th class="report-heading-second th_large">Graduation Year (A.D.)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $j = 1;
+                        
                         @endphp
                     @foreach($json['ait_study_details'] as $degree)
+                        @php
+                        $school='';
+                            if($degree->name_of_school == "4"){
+                                $school = ' ('.$degree->name_of_other_school.')';
+                            }
+                        @endphp
                     <tr>
                         <td class="report-data text-center">{{  $j++ }}</td>
                         <td class="report-data-second">{{App\Models\Member::$degree_options[$degree->academic_level]}}</td>
-                        <td colspan="2" class="report-data-second">{{$degree->name_of_degree}}</td>
-                        <td colspan="2" class="report-data-second">{{$degree->field_of_study}}</td>
+                        <td colspan="2"  class="report-data-second">{{$degree->name_of_degree}}</td>
+                        <td class="report-data-second">{{App\Models\Member::$school_options[$degree->name_of_school]}}{{$school}}</td>
+                        <td  class="report-data-second">{{$degree->field_of_study}}</td>
                         <td class="report-data-second">{{$degree->graduation_year}}</td>
                     </tr>
                     @endforeach

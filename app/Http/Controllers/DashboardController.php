@@ -34,6 +34,8 @@ class DashboardController extends Controller
         $data['provinces'] = MstFedProvince::orderBy('id')->get();
         $data['districts'] = MstFedDistrict::orderBy('id')->get();
         $data['genders'] = MstGender::orderBy('id')->get();
+        $data['degree_options'] = Member::$degree_options;
+        $data['school_options'] = Member::$school_options;
 
         $sql ="with expertise_data as (
             select expertise->>'name' as expertise_name,status
@@ -90,6 +92,21 @@ class DashboardController extends Controller
 
         $data['expertise_result']= $final_result;
 
+        //graduation year
+        $sql1 ="with degree_data as (
+            select id,status,ait_details->>'graduation_year' as graduation_year
+            from( select id,status,json_array_elements(ait_study_details)::json as ait_details from members)a)
+            select ed.* from degree_data ed where graduation_year is not null and status=3 order by graduation_year DESC";
+
+        $results = collect(DB::select($sql1));
+        $years = $results->pluck('graduation_year')->toArray();
+        $years = array_unique($years);
+
+        $data['graduation_years']= $years;
+
+
+        $results = collect(DB::select($sql));
+
         return view('public.index',$data);
     }
 
@@ -107,106 +124,6 @@ class DashboardController extends Controller
         return back();
     }
 
-    // public function getPageContent(Request $request)
-    // {   
-    //     $key = $request->key;
-    //     if($key == 'btn-graphical')
-    //     {
-    //         return view('public.partial.graphical');
-    //     }else
-    //     {
-    //         $data['provinces'] = MstFedProvince::orderBy('id')->get();
-    //         $data['districts'] = MstFedDistrict::orderBy('id')->get();
-    //         $data['genders'] = MstGender::orderBy('id')->get();
-
-
-
-    //         $sql ="with expertise_data as (
-    //             select expertise->>'name' as expertise_name,channel_wiw
-    //             from(
-    //                     select channel_wiw,json_array_elements(expertise)::json as expertise from members)a
-    //             )
-    //             select ed.* from expertise_data ed where expertise_name is not null and channel_wiw = true";
-
-    //         $results = DB::select($sql);
-    //         // $results = array_slice($results,0,100);
-
-    //         $expertise_string= '';
-
-    //         foreach($results as $r)
-    //         {
-    //             if($expertise_string != ''){
-
-    //                 $pattern = strtolower($r->expertise_name);
-
-    //                 if(strpos($pattern,$expertise_string) !== false){
-    //                     break;
-    //                 }else{
-    //                     $expertise_string .= '; '. $pattern;
-    //                 }
-
-
-    //                 // $pattern_exploded = explode(' ',$pattern);
-
-    //                 //loop through exploded patterns
-    //                 // foreach($pattern_exploded as $segment)
-    //                 // {
-    //                 //     if(strpos($segment,$expertise_string) !== false){
-    //                 //         break;
-    //                 //     }else{
-    //                 //         $expertise_string .= '; '. $segment;
-    //                 //     }
-    //                 // }
-             
-           
-    //             }else{
-    //                 $expertise_string .=strtolower($r->expertise_name);
-    //             }
-    //         }
-
-    //         $expertise_string = \str_replace([',','.','(',')','‘','“'],'',$expertise_string);
-    //         $expertise_string = \str_replace(['/'],' ',$expertise_string);
-    //         $expertise_string = preg_replace("/\r|\n/", "", $expertise_string);
-    //         $explode_result = \explode('; ',$expertise_string);
-
-    //         $explode_result = array_values(array_unique(array_values(array_filter($explode_result))));
-    //         $final_result = [];
-
-    //         foreach($explode_result as $er)
-    //         {
-    //             $str_status = false;
-
-    //             if(strlen($er)>2 && strlen($er) < 70)
-    //             {
-    //                 $str_status= true;
-    //             }
-
-    //             // for ($i = 0; $i < strlen($er); $i++) {
-    //             //     if (ctype_digit($er[$i]) ) {
-    //             //         $str_status = false;
-    //             //         break;
-    //             //     }
-    //             // }
-
-    //             if($str_status == true)
-    //             {
-    //                 $final_result[] = $er;
-    //             }
-    //         }
-
-    //         $final_result = collect($final_result);
-
-    //         // dd($final_result);
-
-    //         //array to exclude items;
-
-    //         // $exclude = ['based','water','']
-
-    //        $data['expertise_result']= $final_result;
-
-    //         return view('public.partial.tabular_index',$data);
-    //     }
-    // }
 
     public function getMembersList(Request $request)
     { 
@@ -247,7 +164,6 @@ class DashboardController extends Controller
             foreach($_members as $member)
             {
                 $member_age = Carbon::now()->diffInYears(Carbon::parse($member->dob_ad));
-
                 switch($request->age_group){
                     case "Below-30":
                         if($member_age <= 30){
@@ -274,11 +190,63 @@ class DashboardController extends Controller
                             $member_ids[] = $member->id; 
                         }
                     break;
+                    case 'not':
+                        if($member_age == 0){
+                            $member_ids[] = $member->id; 
+                        }
+                        break;
 
                 }
               
             }
             $members = $members->whereIn('id',$member_ids);
+        }
+
+        if($request->degree != '')
+        {
+            $sql ="with degree_data as (
+                select id,ait_details->>'academic_level' as academic_level
+                from( select id,json_array_elements(ait_study_details)::json as ait_details from members)a)
+                select ed.* from degree_data ed where academic_level is not null
+                and academic_level = '$request->degree'";
+            $results = collect(DB::select($sql));
+            $mem_ids = $results->pluck('id')->toArray();
+            $mem_ids_uq = array_unique($mem_ids);
+
+            $members = $members->whereIn('id',$mem_ids_uq);
+
+        }
+
+        if($request->school != '')
+        {
+            $sql ="with degree_data as (
+                select id,ait_details->>'name_of_school' as name_of_school
+                from( select id,json_array_elements(ait_study_details)::json as ait_details from members)a)
+                select ed.* from degree_data ed where name_of_school is not null
+                and name_of_school = '$request->school'";
+
+            $results = collect(DB::select($sql));
+            $mem_ids = $results->pluck('id')->toArray();
+            $mem_ids_uq = array_unique($mem_ids);
+
+            $members = $members->whereIn('id',$mem_ids_uq);
+
+        }
+
+        if($request->graduation_year != '')
+        {
+            $sql ="with degree_data as (
+                select id,ait_details->>'graduation_year' as graduation_year
+                from( select id,json_array_elements(ait_study_details)::json as ait_details from members)a)
+                select ed.* from degree_data ed where graduation_year is not null
+                and graduation_year = '$request->graduation_year'";
+
+            $results = collect(DB::select($sql));
+            $mem_ids = $results->pluck('id')->toArray();
+            $mem_ids_uq = array_unique($mem_ids);
+
+            $members = $members->whereIn('id',$mem_ids_uq);
+
         }
 
         if($request->expertise != '')

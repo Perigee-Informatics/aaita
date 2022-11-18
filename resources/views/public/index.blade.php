@@ -33,11 +33,11 @@
         </div> --}}
 
         {{-- <div class="col p-0 border rounded p-2" id="body-content"></div> --}}
-        @if(Str::contains(url()->current(),'public/list-members'))
+        {{-- @if(Str::contains(url()->current(),'public/list-members')) --}}
             @include('public.partial.tabular_index')
-        @else
+        {{-- @else
             @include('public.partial.graphical')
-        @endif
+        @endif --}}
     </div>
 
 @endsection
@@ -46,28 +46,6 @@
         <script>
             $(document).ready(function(){
 
-                // $('a.tab-btn').click(function(event) {
-                //     if(!$(this).hasClass('bg-primary')) {
-                //         return false;
-                //     }
-                //     $('#body-content').html('<div class="text-center mt-5"><img src="/gif/loading.gif"/></div>');
-                //     event.preventDefault();
-                //     let key = $(this).attr('id');
-                //     loadBodyContent(key);
-
-                //     $('a.tab-btn').removeClass('bg-primary bg-success text-white').addClass('bg-primary text-white')
-                //     $(this).removeClass('bg-primary bg-success text-dark text-white').addClass('bg-success text-white')
-                // });
-
-                // loadBodyContent = (key) => {
-                //     let url = '/home/get-page-content';
-                //     $.get(url,{key:key}, function(response) {
-                //         $('#body-content').html(response);
-                //     });
-                // }
-
-                // // Load default tab
-                // $('a.tab-btn:first-child').click();
 
                   $('body').on('keyup', function(e) {
                     let keyPressed = e.which ? e.which : e.keyCode;

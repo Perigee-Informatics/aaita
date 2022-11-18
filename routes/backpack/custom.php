@@ -59,6 +59,9 @@ Route::group([
     
     Route::crud('notification', 'NotificationCrudController');
 
+    Route::get('list-members', [DashboardController::class,'tabularIndex']);
+    Route::post('list-members', [DashboardController::class,'getMembersList']);
+
     
 
 

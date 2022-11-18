@@ -104,27 +104,43 @@
                     <option class="form-control" value="41-50">41-50</option>
                     <option class="form-control" value="51-60">51-60</option>
                     <option class="form-control" value="60-Above">60 & Above</option>
+                    <option class="form-control" value="not">Not mentioned</option>
+
                 </select>
                 <button class="btn bg-light la la-times age_group_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
             </div>
-            {{-- <div class="col d-inline-flex">
-                <select class="form-control" name="channel" id="channel" style="width: 100%;" onchange="getMembersData()">
-                    <option class="text-mute" selected disabled value=""> -- Channel --</option>
-                    <option class="form-control" value="wiw">WIW</option>
-                    <option class="form-control" value="wsfn">WSFN</option>
-                    <option class="form-control" value="foreign">Foreign</option>
+
+        </div>
+        <div class="form-row">
+            <div class="col d-inline-flex">
+                <select class="form-control" name="degree" id="degree" style="width: 100%;" onchange="getMembersData()">
+                    <option class="text-mute" selected disabled value=""> -- AIT Academic Level --</option>
+                    @foreach($degree_options as $key=>$do)
+                        <option class="form-control" value="{{ $key}}">{{ $do }}</option>
+                    @endforeach
                 </select>
-                <button class="btn bg-light la la-times channel_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
+                <button class="btn bg-light la la-times degree_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
             </div>
 
             <div class="col d-inline-flex">
-                <select class="form-control" name="membership_type" id="membership_type" style="width: 100%;" onchange="getMembersData()">
-                    <option class="text-mute" selected disabled value=""> -- Membership Type --</option>
-                    <option class="form-control" value="life">Life</option>
-                    <option class="form-control" value="friends_of_wsfn">Friends of WSFN</option>
+                <select class="form-control" name="school" id="school" style="width: 100%;" onchange="getMembersData()">
+                    <option class="text-mute" selected disabled value=""> -- AIT School --</option>
+                    @foreach($school_options as $key=>$so)
+                        <option class="form-control" value="{{ $key}}">{{ $so }}</option>
+                    @endforeach
                 </select>
-                <button class="btn bg-light la la-times membership_type_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
-            </div> --}}
+                <button class="btn bg-light la la-times school_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
+            </div>
+
+            <div class="col d-inline-flex">
+                <select class="form-control" name="graduation_year" id="graduation_year" style="width: 100%;" onchange="getMembersData()">
+                    <option class="text-mute" selected disabled value=""> -- AIT Graduation Year --</option>
+                    @foreach($graduation_years as $gy)
+                        <option class="form-control" value="{{ $gy}}">{{ $gy }}</option>
+                    @endforeach
+                </select>
+                <button class="btn bg-light la la-times graduation_year_filter times-hidden font-weight-bold" onclick="filterClear(this)"></button>
+            </div>
            
         </div>
 
@@ -204,7 +220,6 @@
                 localStorage.removeItem('province_id');
                 localStorage.removeItem('district_id');
                 localStorage.removeItem('gender_id');
-                localStorage.removeItem('type');
                 localStorage.removeItem('age_group');
             }, 2500);
         }
@@ -226,6 +241,9 @@
             country_status: $('#country_status').val(),
             age_group:$('#age_group').val(),
             expertise:$('#expertise').val(),
+            degree:$('#degree').val(),
+            school:$('#school').val(),
+            graduation_year:$('#graduation_year').val(),
             page_number : query_string,
 
         }
@@ -246,9 +264,15 @@
         if($('#age_group').val()){
             $('.age_group_filter').removeClass('times-hidden').addClass('times-show');
         }
-        // if($('#expertise_name').val()){
-        //     $('.expertise_name_filter').removeClass('times-hidden').addClass('times-show');
-        // }
+        if($('#degree').val()){
+            $('.degree_filter').removeClass('times-hidden').addClass('times-show');
+        }
+        if($('#school').val()){
+            $('.school_filter').removeClass('times-hidden').addClass('times-show');
+        }
+        if($('#graduation_year').val()){
+            $('.graduation_year_filter').removeClass('times-hidden').addClass('times-show');
+        }
  
         let active_ele = document.getElementsByClassName('times-show').forEach(function(ele){
             let itm = ele.previousElementSibling;
