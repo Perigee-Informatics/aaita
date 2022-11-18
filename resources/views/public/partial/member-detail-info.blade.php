@@ -139,7 +139,7 @@
                         @endphp
                         @if($basic->bio != '')
                             <tr>
-                                <td colspan="11" class="report-data-second">{{$expertise->name}}</td>
+                                <td colspan="11" class="report-data-second">{{$basic->bio}}</td>
                             </tr>
                         @endif
                 </tbody>
