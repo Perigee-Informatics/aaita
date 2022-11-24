@@ -7,7 +7,7 @@
 </p>
 <br/>
 Note:  You can edit/update your information until the application is approved, by clicking the following link.<br>
-<a href="{{ 'https://aitaan.perigee.com.np/public/apply-for-membership/edit?token='.$member['token']}}" style="color:blue; font-weight:bold; text-decoration:underline;">LINK</a> 
+<a href="{{ 'https://whoiswho.aitaan.org/public/apply-for-membership/edit?token='.$member['token']}}" style="color:blue; font-weight:bold; text-decoration:underline;">LINK</a> 
 <br/>
 <br/>
 
